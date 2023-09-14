@@ -1,0 +1,125 @@
+.custom-backgound-makeAppoiment img {
+  height: 380px;
+}
+
+::ng-deep popover-container.calendar-bound,
+::ng-deep popover-container.calbottomar-bound,
+::ng-deep popover-container.caltopar-bound {
+  width: 415px;
+  min-width: 415px;
+}
+
+::ng-deep popover-container.calendar-hour-bound {
+  transform: none !important;
+  border: none;
+  position: absolute;
+  left: 425px !important;
+  bottom: 265px !important;
+  top: unset !important;
+}
+.custom-background-form ::ng-deep lunar-calendar .form-control:focus,
+.custom-background-form ::ng-deep time-selecotor .form-control:focus
+{
+  background-color: transparent !important;
+  color: #d4821e !important;  
+}
+
+.calendar-icon,
+.time-selector-icon {
+  left: -40px !important;
+  position: relative;
+  border: transparent;
+  top: -2px;
+  color: #d4821e !important;
+}
+
+.birth-day-type-options > div,
+.birthday-selector > * {
+  display: inline;
+}
+.step-title, .title {
+  background-color: #41210a;
+  color: #e5b351;
+}
+  @media only screen and (max-width: 992px) {
+    ::ng-deep popover-container.calendar-hour-bound {
+    transform: none !important;
+    border: none;
+    position: absolute;
+    left: 0px !important;
+    top: unset !important;
+    bottom: unset !important;
+  }
+
+  .time-selector-icon {
+    top: 10px;
+  }
+
+  .input-hour {
+    margin-top: 10px;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  ::ng-deep popover-container.calendar-bound,
+  ::ng-deep popover-container.calbottomar-bound,
+  ::ng-deep popover-container.caltopar-bound {
+    transform: none !important;
+    width: 415px;
+    min-width: 415px;
+    border: none;
+    position: absolute;
+    left: 30px !important;
+    bottom: 143px !important;
+    top: unset !important;
+  }
+
+  .time-selector-icon {
+    top: 10px;
+  }
+
+  .input-hour {
+    margin-top: 10px;
+  }
+
+  .spacing-input-hour {
+    margin-left: unset !important
+  }
+}
+
+@media only screen and (max-width: 431px) {
+  ::ng-deep popover-container.calendar-bound,
+  ::ng-deep popover-container.calbottomar-bound,
+  ::ng-deep popover-container.caltopar-bound {
+    transform: none !important;
+    width: 333px;
+    min-width: 333px;
+    border: none;
+    position: absolute;
+    left: 0px !important;
+    bottom: unset !important;
+  }
+  ::ng-deep popover-container.calendar-hour-bound {
+    transform: none !important;
+    border: none;
+    position: absolute;
+    left: 29px !important;
+    top: unset !important;
+    bottom: unset !important;
+  }
+  .input-hour {
+    margin-top: 10px;
+  }
+  .spacing-input-hour{
+      margin-left: unset !important
+  }
+}
+
+.spacing-input-hour {
+    margin-left: 12px
+}
+.make-a-appointment-label {
+  font-size: 1.5rem;
+  text-align: center;
+}

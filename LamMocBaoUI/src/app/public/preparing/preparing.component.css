@@ -1,0 +1,10 @@
+.app-component-loader
+{
+    height: 100%;
+    width: 100%;
+}
+  .app-component-loader img {
+    width: 15% !important;
+    height: auto !important;
+    margin: auto !important;
+  }

@@ -1,0 +1,9 @@
+.image-preview {
+    height: 100px;
+    width: 100px;
+}
+  .image-preview > * {
+    margin: 3px;
+    height: 90px;
+    width: auto;
+  }

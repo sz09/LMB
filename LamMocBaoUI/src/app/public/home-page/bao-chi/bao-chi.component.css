@@ -1,0 +1,35 @@
+.magazine-title {
+  display: flex;
+  align-items: center;
+  width: 17rem;
+  background-color: #41210a;
+  padding: 10px;
+  text-align: center;
+  color: #e5b351;
+  border-radius: 0 10px 10px 0;
+}
+
+.magazine-item {
+  /*height: 50px*/
+}
+
+  .magazine-item img {
+    height: 100px;
+    border-radius: 5px;
+  }
+.news-paper {
+  display: block;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.magazine-item img {
+  height: 100px;
+  border-radius: 5px;
+  width: auto;
+  max-width: 90%;
+}
+
+.magazine-item .carousel-item a{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}

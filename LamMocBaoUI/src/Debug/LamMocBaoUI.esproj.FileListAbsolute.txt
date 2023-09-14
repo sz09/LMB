@@ -1,0 +1,2 @@
+E:\LamMocBao\LamMocBaoUI\obj\Debug\LamMocBaoUI.esproj.SuggestedBindingRedirects.cache
+E:\LamMocBao\LamMocBaoUI\obj\Debug\LamMocBaoUI.esproj.CoreCompileInputs.cache

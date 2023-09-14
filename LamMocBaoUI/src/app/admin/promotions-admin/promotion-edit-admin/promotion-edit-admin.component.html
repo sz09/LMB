@@ -1,0 +1,62 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="onSubmit()">
+  <div *ngIf="promotion" class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ (isNew ? 'Common.Save': 'Common.Update' ) | translate }}</h5>
+        <div class="button-group pull-right">
+          <button type="submit" class="btn btn-sm btn-primary m-2">{{ ( isNew ? 'Common.Save': 'Common.Update') | translate }}</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="backToGrid()">{{ 'Common.Back' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="form-content col-md-6">
+          <div class="form-group col-md-6">
+            <label>{{ 'Promotion.Code' | translate }}</label>
+            <input type="text" class="form-control" placeholder="{{ 'Promotion.Code' | translate }}" name="Code" [(ngModel)]="promotion.Code" required>
+          </div>
+          <div class="form-group">
+            <label>{{ 'Promotion.Mode' | translate }}</label>
+            <div class="row col-md-12">
+              <div class="form-check">
+                <input type="radio" [(ngModel)]="promotion.PromotionMode" id="promotionModeManual" [value]="promotionMode.Manual" name="PromotionMode" [ngModelOptions]="{standalone: true}"/>
+                <label class="form-check-label" for="promotionModeManual">
+                  {{ 'Promotion.Manual' | translate }}
+                </label>
+              </div>
+              <div class="form-check">
+                <input type="radio" [(ngModel)]="promotion.PromotionMode" id="promotionModePeriod" [value]="promotionMode.Period" name="PromotionMode" [ngModelOptions]="{standalone: true}" />
+                <label class="form-check-label" for="promotionModePeriod">
+                  {{ 'Promotion.Period' | translate }}
+                </label>
+              </div>
+            </div>
+            <div id="period-mode" *ngIf="promotion.PromotionMode == promotionMode.Period">
+              <div class="row col-md-10 d-inline-block">
+                <div class="col-md-6 d-inline-block">
+                  {{ 'Promotion.From' | translate }}
+                  <!-- Verify not consistent with none - to - value-->
+                  <input type="datetime-local" class="form-control" placeholder="{{ 'Promotion.From' | translate }}" name="From" [max]="promotion.To" [(ngModel)]="promotion.From" required>
+                </div>
+                <div class="col-md-6 d-inline-block">
+                  {{ 'Promotion.To' | translate }}
+
+                  <input type="datetime-local" class="form-control" placeholder="{{ 'Promotion.To' | translate }}" name="From" [max]="promotion.From" [(ngModel)]="promotion.To" required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-5">
+            <label>{{ 'Promotion.DiscountPercent' | translate }}</label>
+            <input type="number" class="form-control" placeholder="{{ 'Promotion.DiscountPercent' | translate }}" name="DiscountPercent" [(ngModel)]="promotion.DiscountPercent">
+          </div>
+          <div class="form-group">
+            <div class="checkbox form-check">
+              <input type="checkbox" class="form-check-input" id="IsActive" name="IsActive" [(ngModel)]="promotion.IsActive" />
+              <label for="IsActive"> {{ 'Promotion.IsActive' | translate }} </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

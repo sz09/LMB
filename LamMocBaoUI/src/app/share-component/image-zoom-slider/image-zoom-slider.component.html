@@ -1,0 +1,8 @@
+<div *ngIf="image">
+  <lib-ngx-image-zoom [fullImage]="image.Url"
+                      [zoomMode]="'toggle-click'"
+                      [thumbImage]="image.Url"
+                      [maxZoomRatio]="2"
+                      [enableScrollZoom]="true">
+  </lib-ngx-image-zoom>
+</div>

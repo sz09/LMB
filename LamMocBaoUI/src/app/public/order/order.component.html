@@ -1,0 +1,332 @@
+<div class="group-direct-link mt-3">
+  <order-status-direct-link [status]="cartStatus.OnPayment"></order-status-direct-link>
+</div>
+<form class="row col-md-12" #f="ngForm" novalidate *ngIf="order">
+  <div class="col-md-6" [ngClass]="{'p-0 mb-2': isMobile}">
+    <div class="custom-background-form background-unset">
+      <div class="row color-text upper-text"><label>{{ 'Order.PaymentInfos' | translate }}</label></div>
+      <div class="form-group row col-md-12 mt-3">
+        <label for="full-name" class="color-text">{{ 'Order.Customer_FullName' | translate }}</label>
+        <div class="col-md-12">
+          <input type="text" class="form-control color-text custom-form order-form" [ngModelOptions]="{standalone: true}" placeholder="{{ 'Order.Customer_Input_FullName_PlaceHolder' | translate }}"
+                 [(ngModel)]="order.Customer.FullName" #customerFullName="ngModel"
+                 required
+                 title="{{ 'Order.Order_Address_Please_Input_FullName' | translate }}">
+        </div>
+      </div>
+      <div class="form-group col-md-12 row mt-3">
+        <div class="col-md-6 d-inline-block">
+          <label for="phone-number" class="color-text">{{ 'Order.Customer_PhoneNumber' | translate }}</label>
+          <input type="tel" class="form-control color-text custom-form order-form" [ngModelOptions]="{standalone: true}"
+                 [(ngModel)]="order.Customer.PhoneNumber" #customerPhoneNumber="ngModel" placeholder="{{ 'Order.Customer_Input_PhoneNumber_PlaceHolder' | translate }}" required
+                 title="{{ 'Order.Order_Address_Please_Input_PhoneNumber' | translate }}" />
+        </div>
+        <div class="col-md-6 d-inline-block">
+          <label for="email" class="color-text">{{ 'Order.Customer_Email' | translate }}</label>
+          <input type="email" email class="form-control color-text custom-form order-form" [(ngModel)]="order.Customer.Email" [ngModelOptions]="{standalone: true}" placeholder="{{ 'Order.Customer_Input_Email_PlaceHolder' | translate }}" #customerEmail="ngModel" required>
+        </div>
+      </div>
+      <div class="form-group col-md-12 mr-3 mt-3">
+        <label class="col-md-12 d-block color-text" for="birthday">{{ 'Order.Customer_Birthday' | translate }}</label>
+        <div class="row col-md-12 birth-day-type-options m-0">
+          <div class="form-check fit-content">
+            <input class="form-check-input custom-form order-form" type="radio" name="CalendarType" [(ngModel)]="order.Customer.BirthDayType" [value]="birthDayType.LunarCalendar" id="LunarCalendar">
+            <label class="form-check-label color-text" for="LunarCalendar">
+              {{ 'Order.Customer_Birthday_LunarCalendar' | translate }}
+            </label>
+          </div>
+          <div class="form-check fit-content">
+            <input class="form-check-input custom-form order-form" type="radio" name="CalendarType" [(ngModel)]="order.Customer.BirthDayType" [value]="birthDayType.SolarCalendar" id="SolarCalendar" checked>
+            <label class="form-check-label color-text" for="SolarCalendar">
+              {{ 'Order.Customer_Birthday_SolarCalendar' | translate }}
+            </label>
+          </div>
+        </div>
+        <div class="row col-md-12 d-inline-block">
+          <div class="col-lg-6 d-inline-block birthday-selector">
+            <div class="input-container fit-content col-md-6 d-flex">
+              <input type="text" class="form-control d-inline-block col-md-3 custom-form order-form input-field fit-content" id="customer-date" name="BirthDayDate" placeholder="DD/MM/YYYY" readonly
+                     [ngModel]="order.Customer.BirthDay|date:'dd/MM/yyyy'"
+                     (focus)="isCalendarOpen = true">
+              <span class="btn calendar-icon btn-outline-dark"
+                    [popover]="lunarCalendar"
+                    placement="auto"
+                    triggers=""
+                    (click)="onToggleCalendar()"
+                    containerClass="calendar-bound"
+                    [isOpen]="isCalendarOpen"
+                    [adaptivePosition]="false">
+                <i class="fa-solid fa-calendar-days"></i>
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-6 d-inline-block birthday-selector">
+            <div class="input-container fit-content col-md-6 d-flex">
+              <input type="tel" class="form-control col-md-2 d-inline-block custom-form order-form input-field fit-content input-hour" id="time" name="BirthDayTime" placeholder="HH:MM" readonly
+                     [ngModel]="timeStr"
+                     style="width: 130px !important;">
+              <span class="btn time-selector-icon btn-outline-dark"
+                    [popover]="timeSelector"
+                    placement="auto"
+                    [ngClass]="{'disabled': !order.Customer.BirthDay}"
+                    triggers=""
+                    (click)="onToggleTime()"
+                    containerClass="calendar-hour-bound"
+                    [isOpen]="isTimeOpen"
+                    [adaptivePosition]="false">
+                <i class="fa-solid fa-clock"></i>
+              </span>
+            </div>
+          </div>
+          <i class="custom-order-to-support-text">{{ 'Order.Add_Information_To_Support' | translate }}</i>
+        </div>
+      </div>
+      <div class="form-group row address" *ngIf="provinces">
+        <div class="row col-md-12 mt-3">
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_Province' | translate }}</label>
+            <ng-select [items]="provinces"
+                       name="Province"
+                       bindValue="Id"
+                       appendTo="body"
+                       bindLabel="Name"
+                       (change)="onProvinceChange()"
+                       (clear)="onResetProvince()"
+                       [ngModelOptions]="{standalone: true}"
+                       class="form-control custom-form order-form"
+                       #addressProvince
+                       id="city" required
+                       [(ngModel)]="order.Address.ProvinceId">
+            </ng-select>
+          </div>
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_District' | translate }}</label>
+            <ng-select [items]="districts"
+                       disabled="{{ !order.Address.ProvinceId }}"
+                       name="District"
+                       appendTo="body"
+                       bindValue="Id"
+                       bindLabel="Name"
+                       #addressDistrict
+                       (change)="onDistrictChange()"
+                       [ngModelOptions]="{standalone: true}"
+                       (clear)="onResetDistrict()"
+                       class="form-control custom-form order-form"
+                       id="city" required
+                       [(ngModel)]="order.Address.DistrictId">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row col-md-12 mt-3">
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_Ward' | translate }}</label>
+            <ng-select [items]="wards"
+                       disabled="{{ !order.Address.DistrictId }}"
+                       name="Ward"
+                       bindValue="Id"
+                       bindLabel="Name"
+                       appendTo="body"
+                       #addressWard
+                       class="form-control custom-form order-form"
+                       [ngModelOptions]="{standalone: true}"
+                       (clear)="onResetWard()"
+                       id="city"
+                       required
+                       [(ngModel)]="order.Address.WardId">
+            </ng-select>
+          </div>
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_NumberAndStreet' | translate }}</label>
+            <input type="text" class="form-control custom-form order-form" id="phone-number" name="NumberAndStreet" placeholder="{{ 'Order.Customer_Address_NumberAndStreet' | translate }}" [ngModelOptions]="{standalone: true}" #addressNumberAndStreet="ngModel" [(ngModel)]="order.Address.NumberAndStreet">
+          </div>
+        </div>
+        <div class="row col-md-12" style="padding-left: 1.5rem">
+          <div class="form-check col-md-12 ml-3 mt-2">
+            <input class="form-check-input color-text custom-form" type="checkbox" value="false" id="is-ship-to-another-address" name="IsDeliveryToAnotherAddress" [(ngModel)]="order.IsDeliveryToAnotherAddress" [ngModelOptions]="{standalone: true}" />
+            <label class="form-check-label color-text" for="is-ship-to-another-address">
+              {{ 'Order.Customer_IsShipToAnother_Address' | translate }}
+            </label>
+          </div>
+        </div>
+        <div class="row col-md-12 mt-3">
+          <div class="col-md-12">
+            <label for="validationTextarea" class="color-text">{{ 'Order.Note' | translate }}</label>
+            <textarea class="form-control color-text custom-form order-form" rows="7" placeholder="{{ 'Order.Note' | translate }}" name="Note"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row address" *ngIf="order.IsDeliveryToAnotherAddress" id="ship-to-another-address-panel">
+        <div class="form-group row address" *ngIf="provinces2">
+          <div class="row col-md-12 mt-3">
+            <div class="col-md-6">
+              <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_Province' | translate }}</label>
+              <ng-select [items]="provinces2"
+                         name="Province"
+                         bindValue="Id"
+                         appendTo="body"
+                         bindLabel="Name"
+                         (change)="onProvince2Change()"
+                         (clear)="onResetProvince2()"
+                         #anotherAddressProvince
+                         [ngModelOptions]="{standalone: true}"
+                         class="form-control custom-form order-form"
+                         disabled="{{ !order.IsDeliveryToAnotherAddress }}"
+                         id="city"
+                         required
+                         [(ngModel)]="order.DeliveryAddress.ProvinceId">
+              </ng-select>
+            </div>
+            <div class="col-md-6">
+              <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_District' | translate }}</label>
+              <ng-select [items]="districts2"
+                         name="District"
+                         appendTo="body"
+                         bindValue="Id"
+                         bindLabel="Name"
+                         #anotherAddressDistrict
+                         [ngModelOptions]="{standalone: true}"
+                         (clear)="onResetDistrict2()"
+                         (change)="onDistrict2Change()"
+                         class="form-control custom-form order-form"
+                         id="city"
+                         disabled="{{ !order.IsDeliveryToAnotherAddress }}"
+                         required
+                         [(ngModel)]="order.DeliveryAddress.DistrictId">
+              </ng-select>
+            </div>
+          </div>
+          <div class="row col-md-12 mt-3">
+            <div class="col-md-6">
+              <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_Ward' | translate }}</label>
+              <ng-select [items]="wards2"
+                         name="Ward"
+                         bindValue="Id"
+                         bindLabel="Name"
+                         #anotherAddressWard
+                         [ngModelOptions]="{standalone: true}"
+                         appendTo="body"
+                         (clear)="onResetWard2()"
+                         class="form-control custom-form order-form"
+                         id="city"
+                         disabled="{{ !order.DeliveryAddress.DistrictId }}"
+                         required
+                         [(ngModel)]="order.DeliveryAddress.WardId">
+              </ng-select>
+            </div>
+            <div class="col-md-6">
+              <label for="phone-number" class="color-text">{{ 'Order.Customer_Address_NumberAndStreet' | translate }}</label>
+              <input type="text" class="form-control custom-form order-form"
+                     disabled="{{ !order.IsDeliveryToAnotherAddress }}"
+                     placeholder="{{ 'Order.Customer_Address_NumberAndStreet' | translate }}" required [(ngModel)]="order.DeliveryAddress.Address" [ngModelOptions]="{standalone: true}"
+                     #anotherAddressNumberAndStreet>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-12 mt-3 receiver-infos">
+          <div class="col-md-6">
+            <label for="deliveryreceiver" class="color-text">{{ 'Order.Customer_Receiver' | translate }}</label>
+            <input type="text" class="form-control custom-form order-form" [(ngModel)]="order.DeliveryAddress.Receiver"
+                   disabled="{{ !order.IsDeliveryToAnotherAddress }}"
+                   placeholder="{{ 'Order.Customer_Receiver' | translate }}" [ngModelOptions]="{standalone: true}"
+                   required #anotherReceiver>
+          </div>
+          <div class="col-md-6">
+            <label for="deliveryphonenumber" class="color-text">{{ 'Order.Customer_PhoneNumber' | translate }}</label>
+            <input type="text" class="form-control custom-form order-form" required
+                   disabled="{{ !order.IsDeliveryToAnotherAddress }}"
+                   [(ngModel)]="order.DeliveryAddress.PhoneNumber" placeholder="{{ 'Order.Customer_PhoneNumber' | translate }}" [ngModelOptions]="{standalone: true}" #anotherPhoneNumber>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 order-details">
+    <div>
+      <div class="row color-text upper-text"><label>{{ 'Label.YourOrder' | translate }}</label></div>
+      <div class="row color-text"><label>{{ 'Label.Products' | translate }}</label></div>
+      <div class="orders">
+        <div class="row col-md-12 order-row" [ngClass]="{'d-inline-block': isMobile}" *ngFor="let item of productCarts; let index = index" >
+          <div class="product-preview col-md-7">
+            <div class="d-inline-block">
+              <span class="d-inline-block color-text">{{ item.Name }} ({{ item.SizeName }})</span>
+            </div>
+          </div>
+          <span class="col-md-1 color-text" [ngClass]="{'d-inline p-3': isMobile, 'p-0': !isMobile}">
+            <i class="fa-sharp fa-solid fa-xmark"></i>
+            <span>{{ item.Quantity }}</span>
+          </span>
+          <span class="col-md-3 text-right color-text" [ngClass]="{'d-inline col-md-3': isMobile, 'col-md-4':  !isMobile}">
+            {{ getTotalPrice(item) | lmbcurrency }}
+          </span>
+        </div>
+      </div>
+      <div class="orders-preview-price">
+        <div class="row col-md-12">
+          <div class="col-md-8 color-text">
+            <label>
+              {{ 'Product.Temp_Sum_Price' | translate }}
+            </label>
+          </div>
+          <div class="col-md-4 text-right color-text"><label>{{ sumPrice | lmbcurrency}}</label></div>
+        </div>
+        <div class="row col-md-12 mb-1">
+          <div class="col-md-6 color-text color-text">{{ 'Product.Delivery_Fee' | translate }}</div>
+          <small class="col-md-6 pull-right discount-fee-content text-right color-text"><i> {{ 'Product.Delivery_Fee_Content' | translate }}</i></small>
+        </div>
+        <div class="row col-md-12" *ngIf="discountParams.Percent > 0">
+          <div class="col-md-6 color-text">{{ 'Product.Promotion_Code' | translate }}</div>
+          <div id="promotion-discount-infos" class="col-md-6 text-right color-text">{{ 'Promotion.DiscountMessage' | translate:discountParams }} {{ discountParams.Total | lmbcurrency }}</div>
+        </div>
+      </div>
+      <div class="orders-payment-method">
+        <div class="row col-md-12">
+          <label class="col-md-6 color-text">{{ 'Order.CalculatedPrice_Total' | translate }}</label>
+          <label class="col-md-6 text-right calculated-price-total color-text pull-right">{{ sumPriceAfterDiscount | lmbcurrency}}</label>
+        </div>
+      </div>
+
+      <div class="orders-payment-methods">
+        <div class="form-check">
+          <input class="form-check-input custom-form order-form color-text" type="radio" name="PaymentType" id="COD" [(ngModel)]="order.PaymentType" [ngModelOptions]="{standalone: true}" [value]="paymentMethod.COD">
+          <label class="form-check-label color-text" for="COD">
+            {{ "Payment.Method_COD" | translate }}
+          </label>
+        </div>
+        <div class="form-check bank-tranfer">
+          <input class="form-check-input custom-form order-form color-text" type="radio" [(ngModel)]="order.PaymentType" name="PaymentType" id="BankTranfer" checked [ngModelOptions]="{standalone: true}" [value]="paymentMethod.BankTranfer">
+          <label class="form-check-label color-text" for="BankTranfer">
+            {{ "Payment.Method_BankTransfer" | translate }}
+          </label>
+          <label class="form-check-label d-block color-text" for="BankTranfer">
+            {{ "SystemSetting.BankAccount" | translate }}:  {{ paymentInfos.BankAccount }}
+          </label>
+          <label class="form-check-label d-block color-text" for="BfankTranfer">
+            {{ "SystemSetting.CardHolderName" | translate }}: {{ paymentInfos.CardHolderName }}
+          </label>
+          <label class="form-check-label d-block color-text" for="BankTranfer">
+            {{ "SystemSetting.BankName" | translate }}: {{ paymentInfos.BankName }}
+          </label>
+          <label class="form-check-label d-block color-text" for="BankTranfer">
+            {{ "Payment.Content" | translate }}
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="w-f-content m-auto">
+          <button type="button" class="btn order-btn lmb-btn btn-primary" [disabled]="isOrdering" (click)="doOrder()">
+            <i class="fa-solid fa-spinner fa-spin" *ngIf="isOrdering"></i>
+            {{ "Order.Submit" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #lunarCalendar>
+  <lunar-calendar [selectedDate]="selectedBirthday" (onSelectDate)="onSelectDate($event)"></lunar-calendar>
+</ng-template>
+<ng-template #timeSelector>
+  <time-selector [selectedTime]="selectedTime" (onSelectedTime)="onSelectedTime($event)"></time-selector>
+</ng-template>

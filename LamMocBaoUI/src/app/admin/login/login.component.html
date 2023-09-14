@@ -1,0 +1,34 @@
+<div class="sidenav">
+  <div class="login-main-text">
+    <h2>{{ 'Login.WelcomeBack' | translate }}</h2>
+  </div>
+</div>
+<div class="main">
+  <div class="col-md-6 col-sm-12">
+    <div class="login-form">
+      <form #f="ngForm" novalidate (submit)="doLogin()">
+        <div class="form-group text-danger" *ngIf="isError">
+          {{ 'Login.UsernamePasswordMismatch' | translate}}
+        </div>
+        <div class="form-group mt-2">
+          <label>{{ 'Login.Label_Username' | translate }}</label>
+          <input type="text" [(ngModel)]="username" class="form-control" name="Username" />
+        </div>
+        <div class="form-group mt-2">
+          <label>{{ 'Login.Label_Password' | translate }}</label>
+          <div class="d-inline">
+            <input [hidden]="showPassword" type="password" [(ngModel)]="password" class="form-control" name="Password" />
+            <input [hidden]="!showPassword" type="text" [(ngModel)]="password" class="form-control" name="Password" />
+            <button type="button" id="btn-show-password" class="btn btn-sm btn-outline-dark d-inline" (click)="showPassword = !showPassword">
+              <i [hidden]="showPassword" class="fa-solid fa-eye"></i>
+              <i [hidden]="!showPassword" class="fa-solid fa-eye-slash"></i>
+            </button>
+          </div>
+        </div>
+        <div class="w-100">
+          <button type="submit" class="btn btn-outline-light  mt-2">{{ 'Login.Button_Login' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

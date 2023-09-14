@@ -1,0 +1,67 @@
+<div class="mt-2 p-0" *ngIf="mode == showMode.Create">
+  <material-admin-edit (onClose)="mode = showMode.ShowGrid"></material-admin-edit>
+</div>
+<div *ngIf="mode == showMode.ShowGrid">
+  <div class="row col-md-12 d-inline-block">
+    <div class="col-md-8 d-inline-block">
+      <div class="input-group">
+        <input type="text" aria-label="Input group example"
+               id="searchMaterial" class="form-control form-control-sm"
+               placeholder="{{ 'Size.Search_Placeholder' | translate }}"
+               name="Search" [(ngModel)]="payload.Search"
+               aria-describedby="btnSearchBtn"
+               (keydown.enter)="loadData()">
+        <button class="search-button btn btn-sm btn-light d-block input-group-text" id="btnSearchBtn" (click)="loadData()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-4 d-inline-block">
+      <button class="btn btn-success float-end" (click)="create()">
+        {{ 'Common.Create' | translate}}
+      </button>
+    </div>
+  </div>
+  <div class="row mt-2 p-0">
+    <div class="col-md-12 p-0">
+      <div class="table-wrap table-responsive-lg">
+        <ngx-datatable class="material colored-header md table table-striped table-hover"
+                       style="height: calc(100vh - 200px)"
+                       [loadingIndicator]="loadingIndicator"
+                       [rows]="rows"
+                       [rowHeight]="50"
+                       [headerHeight]="35"
+                       [footerHeight]="35"
+                       [scrollbarH]="true"
+                       [scrollbarV]="true"
+                       [virtualization]="false"
+                       [columns]="columns"
+                       [columnMode]="'force'"
+                       [displayCheck]="displayCheck"
+                       [externalPaging]="true"
+                       [externalSorting]="true"
+                       [count]="total"
+                       [offset]="payload.PageSize"
+                       [messages]="gridMessage"
+                       [sorts]="[{dir: 'Name', prop: 'asc'}]">
+        </ngx-datatable>
+      </div>
+    </div>
+    <pagination [total]="totalRows" [pageSize]="payload.PageSize" [selectedPage]="payload.Page" (onPageChange)="pageChange($event)"></pagination>
+  </div>
+
+  <ng-template #nameTemplate let-rowIndex="rowIndex" let-row="row" let-value="value">
+    <span>{{ row.Name }}</span>
+  </ng-template>
+
+  <ng-template #actionTemplate let-rowIndex="rowIndex" let-row="row" let-value="value">
+    <div class="group-btn-actions">
+      <a routerLink="/admin/chat-lieu/{{row.Id}}" class="btn btn-sm btn-outline-dark">
+        <i class="fas fa-edit"></i>
+      </a>
+      <a (click)="onDelete(row)" class="btn btn-sm btn-outline-danger">
+        <i class="fas fa-trash"></i>
+      </a>
+    </div>
+  </ng-template>
+</div>

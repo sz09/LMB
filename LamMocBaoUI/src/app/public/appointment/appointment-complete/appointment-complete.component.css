@@ -1,0 +1,12 @@
+.make-a-appointment-success-group label {
+  margin-bottom: 2rem;
+}
+
+.make-a-appointment-success-group .header label {
+  font-size: larger;
+}
+
+.make-a-appointment-success-group p, 
+.make-a-appointment-success-group span {
+    color: white
+}

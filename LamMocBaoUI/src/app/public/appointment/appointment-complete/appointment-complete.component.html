@@ -1,0 +1,22 @@
+<div class="col-md-12">
+  <div class="col-md-6 make-a-appointment-success-group m-auto">
+    <div class="f-content m-auto pt-5 header text-uppercase w-f-content">
+      <label class="f-content color-text"> {{ 'Appointment.ThankYou_To_Make_A_Appointment' | translate }}</label>
+    </div>
+    <div class="m-auto mt-3">
+      <span [innerHTML]="'Appointment.We_Will_ContactYouASAP' | translate"></span>
+      <span>
+        <a *ngFor="let item of contactInfo.ContactPhoneNumberArr; let i = index" href="tel: {{ item}}">
+          {{item}}
+          <span *ngIf="i + 1 < contactInfo.ContactPhoneNumberArr.length">-</span>
+        </a>
+      </span>
+    </div>
+    <div class="f-content m-auto mt-3">
+      <span [innerHTML]="'Appointment.Complaint_To_Management' | translate"></span>
+      <a href="tel:0968 6666 71">
+        0968 6666 71
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="saveCategory()">
+  <div *ngIf="category" class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'Common.Update' | translate }}</h5>
+        <div class="button-group pull-right">
+          <button type="submit" class="btn btn-sm btn-primary m-2">{{ (isNew ? 'Common.Create' : 'Common.Update') | translate }}</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="backToGrid()">{{ 'Common.Back' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="form-content">
+          <div class="row col-md-12">
+            <div class="form-group">
+              <p>{{ 'Category.Name' | translate }}</p>
+              <input type="text" class="form-control" required placeholder="{{ 'Category.Name' | translate }}" name="Name" [(ngModel)]="category.Name" title="{{ 'Category.Name_ErrorMessage' | translate }}">
+            </div>
+            <div class="form-group">
+              <p>{{ 'Category.Group' | translate }}</p>
+              <div class="">
+                <ng-select [items]="groups"
+                           name="Group"
+                           appendTo="body"
+                           bindValue="Id"
+                           bindLabel="Label"
+                           class="form-control custom-form"
+                           [clearable]="false"
+                           id="gorup"
+                           [(ngModel)]="category.Group">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group ">
+              <div class="">
+                <p>{{ 'Common.Images' | translate }}</p>
+                <img *ngIf="category.DisplayImageUrl" [src]="category.DisplayImageUrl" class="rounded w-f-content" width="100" height="100">
+                <div class="custom-file mb-3">
+                  <input type="file" id="custom-file-input" accept="images/*" (change)="uploadFile($event)">
+                  <label class="custom-file-label" for="custom-file-input">{{ 'Common.ChooseNewImages' | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="add-new-category-1 pull-right">
+              <button type="button" class="btn btn-sm btn-outline-dark" (click)="addSubCategory1()"><i class="fas fa-plus-circle"></i>
+              {{ 'Category.AddNewSubCategory1' | translate}}
+              </button>
+            </div>
+            <div *ngFor="let sub1 of category.SubCategories; let i = index" class="sub-category col-md-7 d-inline-block">
+              <div class="col-md-8 d-inline-block">
+                <p class="sub-category-level-1 col-md-6 btn-group d-inline-block" role="group" [ngClass]="{'d-flex': displayInputSub1[sub1.TempId]}">
+                  <small *ngIf="!sub1.Id">
+                    <i> {{ 'Common.NewItem' | translate }}</i>
+                  </small>
+                  <span *ngIf="!displayInputSub1[sub1.TempId]" (click)="displayInputSub1[sub1.TempId] = true"> {{sub1.Name}}</span>
+                  <input *ngIf="displayInputSub1[sub1.TempId]" class="form-control d-inline-block" type="text" [(ngModel)]="sub1.Name" (keydown.enter)="displayInputSub1[sub1.TempId] = false" (focusout)="displayInputSub1[sub1.TempId] = false" [ngModelOptions]="{standalone: true}"
+                         [attr.aria-describedby]="'addSub2Btn-' + i" />
+                  <span id="addSub2Btn-{{i}}">
+                    <button type="button" (click)="addSubCategory2(sub1)" class="btn btn-sm btn-outline-dark d-inline-block">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </span>
+                </p>
+                <div *ngIf="sub1.SubCategories && sub1.SubCategories.length" class="col-md-12 d-inline-block">
+                  <div *ngFor="let sub2 of sub1.SubCategories; let sub2I = index" class="sub-category-level-2" [ngClass]="{'d-flex': displayInputSub2[sub2.TempId]}">
+                    <p class="infos  d-inline-block">
+                      <small *ngIf="!sub2.Id">
+                        <i> {{ 'Common.NewItem' | translate }}</i>
+                      </small>
+                      <span *ngIf="!displayInputSub2[sub2.TempId]" (click)="displayInputSub2[ sub2.TempId] = true"> {{sub2.Name}}</span>
+                      <input *ngIf="displayInputSub2[sub2.TempId]" class="form-control d-inline-block" type="text" [(ngModel)]="sub2.Name" (keydown.enter)="displayInputSub2[sub2.TempId] = false" (focusout)="displayInputSub2[sub2.TempId] = false" [ngModelOptions]="{standalone: true}" />
+                    </p>
+                    <div class="float-right d-inline-block">
+                      <button type="button" class="btn btn-sm btn-outline-dark d-inline-block" [ngClass]="{'invisible':sub2I == sub1.SubCategories.length - 1 }" (click)="moveDownSub2(i, sub2I)">
+                        <i class="fa-solid fa-chevron-down"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-dark d-inline-block" [ngClass]="{'invisible':sub2I == 0}" (click)="moveUpSub2(i, sub2I)">
+                        <i class="fa-solid fa-chevron-up"></i>
+                      </button>
+                      <button type="button" (click)="removeSub2(i, sub1, sub2)" class="btn btn-sm btn-outline-dark d-inline-block">
+                        <i class="fa-solid fa-x"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 group-btn-actions move-up-down-sub-category-level-1 pull-right d-inline-block">
+                <div class="group-children">
+                  <button type="button" class="btn btn-sm btn-outline-dark d-inline-block" [ngClass]="{'invisible': i == category.SubCategories.length - 1}" (click)="moveDownSub1(i)">
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-dark d-inline-block" [ngClass]="{'invisible': i == 0}" (click)="moveUpSub1(i)">
+                    <i class="fa-solid fa-chevron-up"></i>
+                  </button>
+                  <button type="button" (click)="removeSub1(sub1)"
+                          class="btn btn-sm btn-outline-dark d-inline-block">
+                    <i class="fa-solid fa-x"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

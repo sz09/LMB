@@ -1,0 +1,162 @@
+<form class="custom-background-form white" #f="ngForm" novalidate>
+  <div *ngIf="order" class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'Order.View' | translate }}</h5>
+        <div class="button-group pull-right">
+          <button type="button" class="btn btn-sm btn-danger" (click)="backToGrid()">{{ 'Common.Back' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="main-content">
+          <div class="form-content">
+            <div class="row col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>{{ 'Order.Customer_Infos' | translate }}</label>
+                  <div class="form-group border rounded">
+                    <div class="form-group m-2">
+                      <label>{{ 'Order.CustomerName' | translate }}</label>
+                      <label class="form-control f-content"> {{ order.Customer.FullName }} </label>
+                    </div>
+                    <div class="form-group m-2">
+                      <label>{{ 'Order.Customer_Birthday' | translate }}</label>
+                      <label class="form-control f-content ">
+                        {{ _displayBirday }}
+                        <span class="badge bg-secondary large-badge">{{ getDisplayBirthDay() | translate }}</span>
+                      </label>
+                    </div>
+                    <div class="form-group m-2">
+                      <label>{{ 'Order.Customer_PhoneNumber' | translate }}</label>
+                      <label class="form-control f-content">
+                        <a id="phone-number" class="phone-number" href="tel:+{{order.Customer.PhoneNumber}}"> {{ order.Customer.PhoneNumber }} </a>
+                      </label>
+                    </div>
+                    <div class="form-group m-2">
+                      <label>{{ 'Order.Customer_Email' | translate }}</label>
+                      <label class="form-control f-content">
+                        <a id="email" class="email-address" href="mailto:+{{ order.Customer.Email }}">{{order.Customer.Email }}</a>
+                      </label>
+                    </div>
+                    <div class="form-group m-2">
+                      <label>{{ 'Order.Customer_Address' | translate }}</label>
+                      <label class="form-control f-content">
+                        <a id="address"> {{ getDisplayAddress(order) }}</a>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <label>{{ 'Order.Infos' | translate }}</label>
+                <div class="form-group border rounded">
+                  <div class="form-group border rounded m-2">
+                    <div class="row header m-2">
+                      <label class="col-md-4 font-weight-bold">{{ 'Product.ProductName' | translate }}</label>
+                      <label class="col-md-3 font-weight-bold"> {{ 'Product.SellingPrice' | translate }}</label>
+                      <label class="col-md-2 font-weight-bold">{{ 'Product.Quantity' | translate }}</label>
+                      <label class="col-md-3 font-weight-bold text-right">{{ 'Product.Temp_Sum_Price' | translate }}</label>
+                    </div>
+                    <div class="content m-3">
+                      <div class="row order-detail-row" *ngFor="let item of order.OrderDetails; let i = index">
+                        <div class="product-preview col-md-4">
+                          <div class="d-inline-block">
+                            <span class="d-inline-block">{{ item.Name }} ({{item.SizeName}})</span>
+                          </div>
+                        </div>
+                        <div class="col-md-3"> {{ item.Price | lmbcurrency}}</div>
+                        <span class="col-md-2"> <i class="fa-sharp fa-solid fa-xmark"></i> {{ item.Quantity }} </span>
+                        <div class="col-md-3 font-weight-bold text-right">{{ getTotalPrice(item) | lmbcurrency}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3 text-right">
+                      <span class="font-weight-bold">{{ getTotalOrderPrice() | lmbcurrency }} </span>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <label class="col-md-6">
+                      {{ 'Product.Promotion_Code' | translate }}:
+                      <i *ngIf="order.PromotionCode"> {{ order.PromotionCode }}</i>
+                      <i *ngIf="!order.PromotionCode"> {{ 'Order.Order_Promotion_None' | translate }}</i>
+                    </label>
+                    <div class="col-md-6 text-right">
+                      <span class="font-weight-bold">{{ order.PromotionMessage }}</span>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3 text-right">
+                      <span class="font-weight-bold">{{ order.CalculatedPrice | lmbcurrency }}</span>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <div class="col-md-12">
+                      <label>{{ 'Order.Status' | translate }}</label>
+                      <div class="pull-right">
+                        <button *ngFor="let status of statuses"
+                                class="m-1 btn-sm {{ getOrderStatusCss(status) }}"
+                                style="position: relative"
+                                [attr.readonly]="!canChangeToStatus(status)"
+                                (click)="changeToStatus(status)">
+                          {{getOrderStatusName(status) | translate}}
+                          <i [hidden]="status != order.OrderStatus" class="fa-solid fa-check"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <div class="col-md-12">
+                      <label>{{ 'Payment.Method' | translate }}</label>
+                      <div class="pull-right">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" disabled name="PaymentType" id="COD" [value]="paymentMethod.COD" [(ngModel)]="order.PaymentType">
+                          <label class="form-check-label" for="COD">
+                            {{ "Payment.Method_COD" | translate }}
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" disabled name="PaymentType" id="BankTranfer" [value]="paymentMethod.BankTranfer" [(ngModel)]="order.PaymentType">
+                          <label class="form-check-label" for="BankTranfer">
+                            {{ "Payment.Method_BankTransfer" | translate }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row col-md-12" *ngIf="order.IsDeliveryToAnotherAddress && order.DeliveryAddress">
+              <div class="form-group">
+                <label>{{ 'Order.Customer_IsShipToAnother_Address' | translate }}</label>
+                <div class="form-group border rounded">
+                  <div class="form-group row m-2">
+                    <label>{{ 'Order.Customer_Address' | translate }}</label>
+                    <div class="form-control">
+                      <span>{{ getDisplayDeliveryAddress(order.DeliveryAddress) }}</span>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <label>{{ 'Order.Customer_Receiver' | translate }}</label>
+                    <div class="form-control">
+                      <span>{{ order.DeliveryAddress.Receiver }}</span>
+                    </div>
+                  </div>
+                  <div class="form-group row m-2">
+                    <label>{{ 'Order.Customer_PhoneNumber' | translate }}</label>
+                    <div class="form-control">
+                      <span>{{ order.DeliveryAddress.PhoneNumber }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

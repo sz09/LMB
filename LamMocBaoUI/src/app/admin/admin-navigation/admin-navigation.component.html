@@ -1,0 +1,11 @@
+<div class="nav-menu">
+  <nav class="nav flex-column p-2" [ngClass]="{'small-menu': !largeMenu, 'large-menu': largeMenu}">
+    <button class="btn btn-outline-dark m-2" style="width: 50px" (click)="toggleNavMenu()"><i class="fa-solid fa-bars"></i></button>
+    <a *ngFor="let menu of menus" class="nav-link" routerLink="{{ menu.RouterLink }}"
+       (click)="selectedEntity = menu.EntityType"
+       [ngClass]="{'active': selectedEntity === menu.EntityType}">
+      <i class="{{ menu.FontAwesomeCssClass }}" [ngClass]="{'fa-xl': !largeMenu}"></i>
+      <span class="nav-label" [hidden]="!largeMenu">{{ menu.Label | translate }}</span>
+    </a>
+  </nav>
+</div>

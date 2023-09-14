@@ -1,0 +1,17 @@
+
+ol li {
+  list-style-type: none;
+  color: blue;
+}
+* {
+    color: white;
+}
+.custom-info {
+    height: 100px
+}
+/*Responsive for PC*/
+@media only screen and (min-width: 450px) {
+  .custom-info {
+    height: 145px
+  }
+}

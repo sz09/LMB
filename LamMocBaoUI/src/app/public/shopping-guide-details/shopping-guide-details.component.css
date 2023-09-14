@@ -1,0 +1,14 @@
+.content-label {
+  text-transform: uppercase;
+}
+
+.content-dialog {
+  color: black;
+  text-align: justify;
+}
+.close-btn {
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 0.25rem;
+  text-transform: none !important;
+}

@@ -1,0 +1,133 @@
+table {
+  width: 100%;
+  max-width: 400px !important;
+}
+
+td {
+  width: 14.27%;
+}
+
+.calendar-table-header {
+  height: 2rem;
+  vertical-align: top;
+  border-bottom: 2px solid transparent;
+  color: #d4821e;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+.calendar-spacer {
+}
+
+.calendar-navigations {
+    width: fit-content;
+}
+
+.calendar-table-header th {
+  margin: auto;
+  text-align: center;
+}
+
+.btn-outline-dark {
+  color: #d4821e;
+  border-color: #d4821e;
+}
+.calendar-previous-button,
+.calendar-next-button {
+    margin-top: -5px;
+}
+.calendar-previous-button {
+  margin-right: 3px;
+}
+::ng-deep lunar-calendar,
+.calendar {
+  max-width: 415px;
+}
+.calendar {
+  background-color: white !important;
+  border: 1px solid #d4821e !important;
+  border-radius: 1rem;
+}
+
+.calendar-content {
+  padding-top: 0.5rem !important;
+}
+
+.calendar-body-cell-container {
+  padding-top: 0.5rem;
+}
+
+.calendar-body-cell {
+  height: 3rem;
+  width: 3rem;
+  border: none;
+  padding-top: 3px;
+  color: #d4821e;
+  border-radius: 25px;
+}
+  .calendar-body-cell.selected,
+  .calendar-body-cell:hover {
+    border: 1px #d4821e solid;
+    color: #d4821e;
+  }
+    .calendar-body-cell.selected.weekend,
+    .calendar-body-cell.weekend:hover {
+      border: 1px red solid;
+      color: red;
+    }
+
+
+  .calendar-body-cell.today,
+  .calendar-body-cell.today.weekend {
+    background-color: #2b2724;
+  }
+    .weekend {
+      color: red;
+    }
+
+.cdk-visually-hidden {
+  display: none !important;
+}
+
+.calendar-body-cell-content {
+  display: block;
+}
+
+.calendar-controls {
+  margin: 0.5rem;
+}
+
+.calendar-body-cell-content.solar-date {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: -5px;
+}
+
+.calendar-body-cell-content.lunar-date {
+  float: right;
+  font-size: 11px;
+  font-style: italic;
+  margin-right: 0px;
+  margin-top: -3px;
+}
+
+.calendar-spacer input[type=number] {
+  background-color: transparent;
+  border: 1px solid #d4821e;
+  color: #d4821e;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.mr-1 {
+    margin-right: 5px;
+}

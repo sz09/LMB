@@ -1,0 +1,157 @@
+<div class="carts" *ngIf="productCarts && productCarts.length">
+  <div class="group-direct-link mt-3">
+    <order-status-direct-link [status]="cartStatus.OnCart"></order-status-direct-link>
+  </div>
+  <div class="carts-temp mt-2 col-md-7 d-inline-block table-cart-mobile-screen">
+    <div class="row header" *ngIf="!isMobile">
+      <label class="col-md-1"></label>
+      <label class="col-md-3 col-8 color-text label-table">{{ 'Cart.Product_ProductName' | translate }}</label>
+      <label class="col-md-2 color-text label-table label-none" *ngIf="!isMobile">{{ 'Cart.Cart_Type' | translate }}</label>
+      <label class="col-md-2 color-text label-table label-none">{{ 'Cart.Product_SellingPrice' | translate }}</label>
+      <label class="col-md-2 col-4 color-text label-table ">{{ 'Cart.Product_Quantity' | translate }}</label>
+      <label class="col-md-2 color-text label-table label-none">{{ 'Cart.Product_Temp_Sum_Price' | translate }}</label>
+    </div>
+    <div id="product_carts">
+      <div class="content">
+        <div *ngFor="let item of productCarts; let index = index">
+          <div class="row product-cart-row" *ngIf="!isMobile">
+            <div class="col-md-1 product-remove">
+              <button type="button" class="btn btn-xs btn-outline-light btn-delete-cart color-text"
+                      (click)="removeProduct(item.Id)">
+                <i class="fa-sharp fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <div class="product-preview col-md-3 col-8">
+              <div class="d-inline-block" style="margin-left: 3rem;">
+                <img class="d-inline-block cart-preview-image img-custom img-cannot-download" [ngSrc]="item.PreviewImage" height="80" width="180">
+                <span class="d-inline-block color-text">
+                  {{ item.Name }}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-2 m-auto">
+              <ul class="product-tags product-cart-type mb-0">
+                <li>{{ item.SizeName }}</li>
+              </ul>
+            </div>
+            <div class="product-price-infos col-md-2">
+              <div class="color-text m-auto"> {{ item.Price | lmbcurrency }}</div>
+            </div>
+            <div class="product-price-infos product-quantity col-md-2 col-4">
+              <input class="quantity width-input-mobile-screen" type="number" min="1" step="1"
+                     [(ngModel)]="item.Quantity" />
+            </div>
+            <div class="product-price-infos product-total-price col-md-2">
+              <div class="color-text m-auto">
+                {{ getTotalPrice(item) | lmbcurrency }}
+              </div>
+            </div>
+          </div>
+          <div class="row product-cart-row" *ngIf="isMobile">
+            <div class="row col-6 d-block">
+              <div class="product-preview col-12">
+                <div class="d-inline-block">
+                  <img class="d-inline-block cart-preview-image img-custom img-cannot-download" [ngSrc]="item.PreviewImage" height="80" width="180">
+                  <span class="d-inline-block color-text">
+                    {{ item.Name }} <span>({{item.SizeName }})</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row col-5 d-block mt-3">
+              <div class="product-price-infos">
+                <div class="color-text m-auto"> {{ item.Price | lmbcurrency }}</div>
+              </div>
+              <div class="product-price-infos product-quantity pt-3">
+                <span class="d-inline-block text-center color-text">X</span>
+                <input class="d-inline-block quantity width-input-mobile-screen m-2 col-8" type="number" min="1" step="1" [(ngModel)]="item.Quantity" />
+              </div>
+              <div class="product-price-infos product-total-price pt-3">
+                <div class="color-text m-auto">
+                  {{ getTotalPrice(item) | lmbcurrency }}
+                </div>
+              </div>
+            </div>
+            <div class="col-1 product-remove mt-3">
+              <button type="button" class="btn btn-xs btn-outline-light btn-delete-cart color-text"
+                      (click)="removeProduct(item.Id)">
+                <i class="fa-sharp fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-actions" [ngClass]="{'d-inline-block m-auto row': isMobile}">
+        <a routerLink="/vat-pham" class="btn lmb-btn title" [ngClass]="{'d-inline-block m-auto col-md-12': isMobile}">
+          <i class="fa-solid fa-arrow-left"></i>
+          {{ 'Cart.Product_Back_Product_Page' | translate }}
+        </a>
+        <button type="button" (click)="updateCart()" class="btn btn-outline-secondary lmb-btn color-text" [ngClass]="{'d-inline-block m-auto col-md-12': isMobile}">
+          {{ 'Cart.UpdateCart' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="carts-sum-temp m-3 mt-2 col-md-4 d-inline-block payment-infos table-cart-mobile-screen">
+    <div class="row header col-md-12">
+      <label class="color-text label-none">{{ 'Product.Carts_Sum' | translate }}</label>
+    </div>
+    <div class="main-infos">
+      <div class="row col-md-12 cal-temp-price">
+        <div class="col-md-6 col-4 color-text">{{ 'Product.Temp_Sum_Price' | translate }}</div>
+        <div class="col-md-6 col-8 color-text pull-right">{{ sumPrice | lmbcurrency}}</div>
+      </div>
+      <div class="row col-md-12">
+        <div class="col-md-6 col-4 color-text">{{ 'Product.Delivery_Fee' | translate }}</div>
+        <div class="col-md-6 col-8 color-text pull-right discount-fee-content">{{ 'Product.Delivery_Fee_Content' | translate }}</div>
+      </div>
+      <div class="row col-md-12">
+        <div class="col-md-6 color-text">{{ 'Product.Promotion_Code' | translate }}</div>
+        <div class="col-md-6 color-text pull-right">
+          <input type="text" class="form-control promotion-code" [(ngModel)]="promotionCode" (change)="onPromotionCodeChange()" (keydown)="isValidCode = true" />
+        </div>
+      </div>
+      <div class="row col-md-12" *ngIf="discountParams.Percent > 0">
+        <div class="col-md-6"></div>
+        <div class="col-md-6 color-text pull-right">
+          <div id="promotion-discount-infos">{{ 'Promotion.DiscountMessage' | translate:discountParams }} {{ discountParams.Total | lmbcurrency }}</div>
+        </div>
+      </div>
+      <div class="row col-md-12" *ngIf="discountParams.Percent == 0 && !isValidCode && !!promotionCode">
+        <div class="col-md-6"></div>
+        <div class="col-md-6 color-text pull-right">
+          <div id="promotion-discount-infos">{{ 'Promotion.Invalid' | translate }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="calculated-price">
+      <div class="row col-md-12">
+        <div class="col-md-6 col-5 color-text">{{ 'Cart.Product_CalculatedPrice_Total' | translate }}</div>
+        <div class="col-md-6 col-5 color-text pull-right">
+          <div class="color-text" id="calculated-price-total">{{ sumPriceAfterDiscount | lmbcurrency}} </div>
+        </div>
+      </div>
+    </div>
+    <div class="payment-box" style="width: 100%">
+      <div>
+        <button class="btn paid-button lmb-btn" id="pay-btn" (click)="doPayment()">
+          {{ 'Cart.Pay' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="carts m-5" *ngIf="!productCarts || !productCarts.length">
+  <div class="col-md-12 d-inline-block">
+    <div class="content color-text m-auto w-f-content">
+      <i>{{ 'Cart.Empty_Inform' | translate }}</i>
+    </div>
+    <div class="btn-actions w-f-content">
+      <a routerLink="/vat-pham" class="btn lmb-btn title">
+        <i class="fa-solid fa-arrow-left"></i>
+        {{ 'Cart.Product_Back_Product_Page' | translate }}
+      </a>
+    </div>
+  </div>
+</div>

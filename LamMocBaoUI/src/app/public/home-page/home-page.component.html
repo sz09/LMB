@@ -1,0 +1,48 @@
+<div *ngIf="homePageData">
+  <!--// Carousel:-->
+  <div id="chuyen-gia">
+    <div id="carouselExampleIndicators" class="carousel slide carousel slide" data-bs-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true"></li>
+        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class=""></li>
+        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" class=""></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active" alt="...">
+          <img class="d-block w-100 img-custom img-cannot-download" [ngSrc]="getImageUrl('carouselLMB.jpg')" alt="Lâm Mộc Bảo" width="1300" height="500">
+        </div>
+        <!--<div class="carousel-item" alt="...">
+    <img class="d-block w-100 img-custom" [ngSrc]="getImageUrl('carouselLMB1.jpg')" alt="Lâm Mộc Bảo" width="1300" height="500">
+  </div>
+  <div class="carousel-item" alt="...">
+    <img class="d-block w-100 img-custom" [ngSrc]="getImageUrl('carouselLMB2.jpg')" alt="Lâm Mộc Bảo" width="1300" height="500">
+  </div>-->
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="row" *ngIf="hompageContent">
+        <div class="col-md-4 more-info">
+          <h5>{{ 'HomePage.PersonalizedProductDesignContent' | translate }}</h5>
+          <div class="mb-4 custom-info" [innerHTML]="hompageContent.PersonalizedProductDesignContent"></div>
+          <a routerLink="/dat-lich/dang-ky-thiet-ke-vat-pham-ca-nhan"><h6>{{ 'Common.MakeAApointment_Immediately' | translate }}</h6></a>
+        </div>
+        <div class="col-md-4 more-info middle-info">
+          <h5> {{ 'HomePage.AnalysisOfFateContent' | translate }}</h5>
+          <div class="mb-4 custom-info" [innerHTML]="hompageContent.AnalysisOfFateContent"></div>
+          <a routerLink="/dat-lich/phan-tich-menh-so"><h6>{{ 'Common.MakeAApointment_Immediately' | translate }}</h6></a>
+        </div>
+        <div class="col-md-4 more-info">
+          <h5> {{ 'HomePage.CollectRareItemsContent' | translate }}</h5>
+          <div class="mb-4 custom-info" [innerHTML]="hompageContent.CollectRareItemsContent"></div>
+          <a class="c-pointer" routerLink="/vat-pham/nhom/vat-pham-suu-tam" ><h6> {{ 'HomePage.Discover_More' | translate }} </h6></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <vat-pham-theo-ngu-hanh (navigateByElement)="navigateToProductByElement($event)" [items]="homePageData.ProductTypes"></vat-pham-theo-ngu-hanh>
+  <danh-muc-san-pham (navigateByCategory)="navigateToProductByCategory($event)" [categories]="homePageData.Categories"></danh-muc-san-pham>
+  <bao-chi [newsPaperPosts]="homePageData.NewsPaperPosts"></bao-chi>
+  <cam-nhan-khach-hang [customerComments]="homePageData.CustomerComments"></cam-nhan-khach-hang>
+  <kien-thuc [knowledges]="homePageData.Knowledges"></kien-thuc>
+</div>

@@ -1,0 +1,99 @@
+<div class="desktop-filter-block" [hidden]="isMobile">
+  <div class="filter-content" *ngIf="menu">
+    <div class="menu-level-0 d-block">
+      <span class="d-block color-text">{{ 'Common.ProductPortfolio' | translate }} </span>
+      <span class="d-block small-seperate color-text"></span>
+    </div>
+    <div class="group-menu-filter">
+      <p class="menu-level-1 pointerable" [ngClass]="{'active': currentFilter.Group == categoryGroup.VatPhamTheoNguHanh }" id="0" (click)="filterByGroup(categoryGroup.VatPhamTheoNguHanh)">{{ 'Product.FiveElements'| translate }}</p>
+      <div *ngIf="menu.MenuByProductTypes">
+        <div *ngFor="let productType of menu.MenuByProductTypes">
+          <div class="custom-button-collapse-group">
+            <p class="menu-level-2" [ngClass]="{ 'active': currentFilter.ProductTypeId == productType.Id }" [id]="productType.Id" name="productTypeFilter" (click)="filterByProductType(productType)">
+              {{ productType.Name }}
+              <button *ngIf="productType.TypeTags.length" class="navbar-toggler custom-button-collapse"
+                      [ngClass]="{'active': currentFilter.ProductTypeId == productType.Id }" type="button" data-toggle="collapse"
+                      [attr.data-target]="'#hasChild' + productType.Id" [attr.aria-controls]="'hasChild'"
+                      [attr.aria-expanded]="currentFilter.ProductTypeId == productType.Id" [attr.aria-label]="'Toggle navigation'">
+                <i class="fa-solid fa-caret-up"></i>
+                <i class="fa-solid fa-caret-down"></i>
+              </button>
+              <span class="count-products">({{ countProducts[productType.Id] ?? 0 }})</span>
+            </p>
+            <span *ngIf="!productType.TypeTags.length"></span>
+          </div>
+          <div *ngFor="let typeTag of productType.TypeTags" id="hasChild{{ productType.Id }}"
+               class="collapse" [ngClass]="{'show': productType.Id == currentFilter.ProductTypeId}">
+            <p class="menu-level-3" [ngClass]="{'active': currentFilter.ProductTypeTagId == typeTag.Id && productType.Id == currentFilter.ProductTypeId }"
+               id="{{ typeTag.Id }}" attr.data-product-type="{{productType.Id }}" name="productTypeTagFilter" attr.data-product-type-id="{{ productType.Id }}" (click)="filterProductTypeTag(typeTag)">
+              {{ typeTag.Name }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="menu.MenuByCategories" class="group-menu">
+      <div *ngFor="let dict of menu.MenuByCategories">
+        <p *ngIf="dict.Key == categoryGroup.VatPhamTheoChatLieu" class="menu-level-1" id="{{dict.Key}}">{{ getCategoryGroupDescription(dict.Key) }}</p>
+        <p *ngIf="dict.Key != categoryGroup.VatPhamTheoChatLieu" class="menu-level-1 pointerable"
+           [ngClass]="{'active': currentFilter.Group == dict.Key}" id="{{dict.Key}}"
+           (click)="filterByGroup(dict.Key)">{{ getCategoryGroupDescription(dict.Key) }}</p>
+        <div *ngFor="let category of dict.Categories">
+          <p class="menu-level-2" *ngIf="category.IsShowOnFilter" [ngClass]="{'active': currentFilter.CategoryId === category.Id}" id="category.Id" name="productCategoryFilter" (click)="filterProductCategory(category)">
+            {{ category.Name }}
+            <span class="count-products">({{ countProducts[category.Id] ?? 0 }})</span>
+            <span *ngIf="category.SubCategories">
+              <span class="sub-category-level-1" *ngFor="let sub1 of category.SubCategories" (click)="filterProductCategory1(sub1, $event)"
+                    [ngClass]="{'active': currentFilter.Sub1CategoryId === sub1.Id, 'inactive': currentFilter.Sub1CategoryId !== sub1.Id}">
+                {{sub1.Name}}  <span class="count-products">({{ countProducts[sub1.Id] ?? 0 }})</span>
+                <span *ngIf="sub1.SubCategories">
+                  <span class="sub-category-level-2" *ngFor="let sub2 of sub1.SubCategories" (click)="filterProductCategory2(sub2, $event)"
+                        [ngClass]="{'active': currentFilter.Sub2CategoryId === sub2.Id, 'inactive': currentFilter.Sub2CategoryId !== sub2.Id}">
+                    {{sub2.Name}} <span class="count-products">({{ countProducts[sub2.Id] ?? 0 }})</span>
+                  </span>
+                </span>
+              </span>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div [hidden]="!isMobile">
+  <danh-muc-san-pham [useInFilter]="true" (navigateByCategory)="filterProductCategoryId($event)" [selectedId]="currentFilter.CategoryId"></danh-muc-san-pham>
+</div>
+<div class="range-box" *ngIf="currentFilter && productConfig">
+  <p class="color-text font-weight-bold">{{ 'Label.Filter_By_Price' | translate }} </p>
+  <div class="range">
+    <div class="range-price">
+      <input disabled type="text" name="min" value="{{ currentFilter.PriceFrom | lmbcurrency }}">
+      <input disabled type="text" name="max" value="{{ currentFilter.PriceTo | lmbcurrency }}" style="text-align:end">
+    </div>
+    <div class="range-slider">
+      <span class="range-selected"></span>
+    </div>
+    <div class="range-input">
+      <mat-slider min="0"
+                  [color]="'#ebb752'"
+                  [max]="productConfig.FilterProductPriceUpTo"
+                  [step]="productConfig.FilterProductStep">
+        <input [(ngModel)]="currentFilter.PriceFrom" matSliderStartThumb>
+        <input [(ngModel)]="currentFilter.PriceTo" matSliderEndThumb>
+      </mat-slider>
+    </div>
+  </div>
+  <div class="custom-sort-button">
+    <button class="btn sort-button" (click)="submitFilter()">{{ 'Label.Filter' | translate}} </button>
+  </div>
+</div>
+
+<button class="register-box-title mt-2">
+  <h4 class="color-text font-weight-bold">
+    <a routerLink="/dat-lich/dang-ky-thiet-ke-vat-pham-ca-nhan" [target]="'_self'" class="color-text">
+      {{ 'Label.Register_Product_Design' | translate}}
+    </a>
+  </h4>
+</button>
+

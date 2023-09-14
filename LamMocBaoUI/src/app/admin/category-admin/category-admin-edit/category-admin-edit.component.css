@@ -1,0 +1,34 @@
+.sub-category-level-1 {
+  margin: 5px 0.5rem 5px;
+}
+.sub-category {
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+.sub-category button {
+    margin-left: 5px;
+}
+.sub-category-level-1 span {
+  padding-left: 1rem;
+}
+.sub-category-level-2 {
+  padding-left: 1rem;
+  margin: 5px 0.5rem 5px 3rem;
+}
+
+.sub-category {
+  border-top: 1px solid black;
+}
+.add-new-category-1 + .sub-category {
+    border-top: none;
+}
+
+.sub-category-level-1-up-down {
+    min-width: 3rem;
+}
+.move-up-down-sub-category-level-1 {
+  position: relative;
+  height: 100%;
+  border-left: 1px solid black;
+  border-radius: unset;
+}

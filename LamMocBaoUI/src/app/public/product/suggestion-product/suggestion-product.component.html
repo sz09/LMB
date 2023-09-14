@@ -1,0 +1,19 @@
+<div class="step-title"><span class="text-uppercase">{{ 'Title.RelatedProducts' | translate}}</span></div>
+<div class="mt-2">
+  <div class="col-12 row m-auto p-0">
+    <div class="col-lg-2 col-6 product-bound" *ngFor="let product of suggestionProducts" link-name [resource-type]="'Product'" [resourve-value]="product.LinkName">
+      <div class="card product-item" style="margin-bottom: 1rem">
+        <div *ngIf="product.ProductImages.length" class="mb-2" id="card_image__{{product.Id }}__0">
+          <img class="img-custom img-cannot-download" ngSrc="{{ product.ProductImages[0]}}" height="200" width="200" />
+        </div>
+        <div class="card-body custom-card-body pb-1">
+          <ul class="product-tags">
+            <p class="color-text text-center">{{ product.Name }}</p>
+            <li *ngFor="let tag of product.TagLabels | slice:0:2"> {{ tag  }}</li>
+          </ul>
+        </div>
+        <div class="product-price-detail"> {{ product.SellingPrice | lmbcurrency }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="onSubmit()">
+  <div *ngIf="knowledge" class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ (isNew ? 'Common.Save': 'Common.Update' ) | translate }}</h5>
+        <div class="button-group pull-right">
+          <button type="button" *ngIf="!isNew" (click)="onPreview()" class="btn btn-sm btn-outline-dark">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button type="submit" class="btn btn-sm btn-primary m-2">{{ ( isNew ? 'Common.Save': 'Common.Update') | translate }}</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="backToGrid()">{{ 'Common.Back' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="form-content">
+          <div class="row col-md-12">
+            <div class="form-group">
+              <label>{{ 'Knowledge.Name' | translate }}</label>
+              <input type="text" class="form-control" name="Name" placeholder="{{ 'Knowledge.Name' | translate }}" [(ngModel)]="knowledge.Name" required title="{{ 'Knowledge.Number_ErrorMessage' | translate }}" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3" [ngClass]="{'mt-2': selectedTags && selectedTags.length}">
+              <label>{{ 'Label.Tags' | translate }}</label>
+              <ng-select [items]="tags"
+                         name="TagId"
+                         appendTo="body"
+                         bindValue="Id"
+                         bindLabel="Label"
+                         class="form-control custom-form"
+                         id="tag"
+                         (change)="addTag($event)"
+                         [(ngModel)]="fakeTagId">
+              </ng-select>
+            </div>
+            <div class="col-md-9">
+              <label></label>
+              <div class="selected-tags">
+                <div class="bound d-inline-block w-f-content" *ngFor="let item of selectedTags">
+                  <div class="content d-block">
+                    {{ item.Label }}
+                    <button type="button" class="btn remove-tag" (click)="removeTag(item)">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row col-md-12">
+            <div class="form-group">
+              <label>{{ 'Knowledge.Summary' | translate }}</label>
+              <input type="text" class="form-control" name="Summary" maxlength="400" placeholder="{{ 'Knowledge.Summary' | translate }}" [(ngModel)]="knowledge.Summary" required title="{{ 'Knowledge.Summary_ErrorMessage' | translate }}" />
+            </div>
+          </div>
+          <div class="form-group d-block upload-image mt-3" *ngIf="knowledge.Id">
+            <label>{{ 'Knowledge.PreviewImage' | translate }}</label>
+            <div class="row col-md-12">
+              <upload-image [entityId]="knowledge.Id" [files]="images" [allowMultiple]="false" [allowRemove]="false" (onUploaded)="onUploaded($event)"></upload-image>
+            </div>
+          </div>
+          <div class="row col-md-12">
+            <div class="form-group">
+              <label>{{ 'Knowledge.Content' | translate }}</label>
+              <quill-editor name="Content"
+                            [styles]="{height: '800px'}"
+                            [modules]="modules"
+                            [(ngModel)]="knowledge.Content"
+                            (onEditorCreated)="addBindingCreated($event)">
+              </quill-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+

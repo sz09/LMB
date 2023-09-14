@@ -1,0 +1,205 @@
+<div class="step-title">
+  <span class="text-uppercase">{{ 'Appointment.Contact' | translate }}</span>
+</div>
+<div class="custom-backgound-makeAppoiment">
+  <img class="img-custom img-cannot-download" height="300" width="1000" [ngSrc]="getImageUrl('00000000-0000-0000-0000-000000000000_backgroundTuVan.jpg')" />
+</div>
+<div>
+  <div class="col-md-8 m-auto">
+    <form class="custom-background-form" #f="ngForm" novalidate>
+      <h1 class="color-text make-a-appointment-label">{{ 'Title.Make_Appointment_With_LMB' | translate }}</h1>
+      <h2 class="d-none" *ngIf="interestServiceValue">{{ interestServiceValue }}</h2>
+      <div class="form-group col-md-12 mt-3">
+        <label for="full-name" class="color-text">{{ 'Appointment.Label_InterestedInService' | translate }}</label>
+        <ng-select class="form-control custom-form"
+                   name="InterestedInService"
+                   [items]="interestServices"
+                   #interestedInService="ngModel"
+                   bindValue="Key"
+                   bindLabel="Value"
+                   [clearable]="false"
+                   appendTo="body"
+                   [(ngModel)]="appointment.InterestedInService">
+        </ng-select>
+      </div>
+      <div class="form-group col-md-12 mt-3">
+        <label for="full-name" class="color-text">{{ 'Appointment.Customer_FullName' | translate }}</label>
+        <input type="text" class="form-control custom-form" id="full-name" name="FullName"
+               #fullName="ngModel" [(ngModel)]="appointment.FullName" placeholder="{{ 'Appointment.Customer_Input_FullName_PlaceHolder' | translate }}"
+               title="{{ 'Appointment.Customer_Input_FullName_ErrorMessage' | translate }}">
+      </div>
+      <div class="form-group row mr-3 mt-3">
+        <div class="col-md-6 d-inline-block">
+          <label for="phone-number" class="color-text">{{ 'Appointment.Customer_PhoneNumber' | translate }}</label>
+          <input type="tel" class="form-control custom-form" id="phone-number" name="PhoneNumber" placeholder="{{ 'Appointment.Customer_Input_PhoneNumber_PlaceHolder' | translate }}"
+                 #phoneNumber="ngModel" [(ngModel)]="appointment.PhoneNumber"
+                 required
+                 title="{{ 'Appointment.Customer_Input_PhoneNumber_ErrorMessage' | translate }}">
+        </div>
+        <div class="col-md-6 d-inline-block">
+          <label for="email" class="color-text">{{ 'Appointment.Customer_Email' | translate }}</label>
+          <input type="email" email class="form-control custom-form" id="email" name="Email"
+                 #email="ngModel" [(ngModel)]="appointment.Email"
+                 placeholder="{{ 'Appointment.Customer_Input_Email_PlaceHolder' | translate }}"
+                 title="{{ 'Appointment.Customer_Email_ErrorMessage' | translate }}">
+        </div>
+      </div>
+      <div class="form-group col-md-12 mr-3 mt-3">
+        <label class="col-md-12 d-block color-text" for="birthday">{{ 'Appointment.Customer_Birthday' | translate }}</label>
+        <div class="row col-md-12 birth-day-type-options m-0">
+          <div class="form-check fit-content">
+            <input class="form-check-input custom-form" type="radio" name="CalendarType" [(ngModel)]="appointment.BirthDayType" [value]="birthDayType.LunarCalendar" id="LunarCalendar">
+            <label class="form-check-label color-text" for="LunarCalendar">
+              {{ 'Appointment.Customer_Birthday_LunarCalendar' | translate }}
+            </label>
+          </div>
+          <div class="form-check fit-content">
+            <input class="form-check-input custom-form" type="radio" name="CalendarType" [(ngModel)]="appointment.BirthDayType" [value]="birthDayType.SolarCalendar" id="SolarCalendar" checked>
+            <label class="form-check-label color-text" for="SolarCalendar">
+              {{ 'Appointment.Customer_Birthday_SolarCalendar' | translate }}
+            </label>
+          </div>
+        </div>
+        <div class="row col-md-12 d-inline-block">
+          <div class="col-lg-6 d-inline-block birthday-selector">
+            <div class="input-container fit-content col-md-6 d-flex">
+              <input type="text" class="form-control d-inline-block col-md-3 custom-form input-field fit-content" id="customer-date" name="BirthDayDate" placeholder="DD/MM/YYYY" readonly
+                     [ngModel]="appointment.BirthDay|date:'dd/MM/yyyy'"
+                     (focus)="isCalendarOpen = true">
+              <span class="btn calendar-icon btn-outline-dark"
+                    [popover]="lunarCalendar"
+                    placement="auto"
+                    triggers=""
+                    (click)="onToggleCalendar()"
+                    containerClass="calendar-bound"
+                    [isOpen]="isCalendarOpen"
+                    [adaptivePosition]="false">
+                <i class="fa-solid fa-calendar-days"></i>
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-6 d-inline-block birthday-selector">
+            <div class="input-container fit-content spacing-input-hour col-md-6 d-flex">
+              <input type="tel" class="form-control col-md-2 d-inline-block custom-form input-field fit-content input-hour" id="time" name="BirthDayTime" placeholder="HH:MM" readonly
+                     [ngModel]="timeStr"
+                     style="width: 130px !important;">
+              <span class="btn time-selector-icon btn-outline-dark"
+                    [popover]="timeSelector"
+                    placement="auto"
+                    [ngClass]="{'disabled': !appointment.BirthDay}"
+                    triggers=""
+                    (click)="onToggleTime()"
+                    containerClass="calendar-hour-bound"
+                    [isOpen]="isTimeOpen"
+                    [adaptivePosition]="false">
+                <i class="fa-solid fa-clock"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="form-group row address" *ngIf="provinces">
+        <div class="row col-md-12 p-0 m-0 mt-3">
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Appointment.Customer_Address_Province' | translate }}</label>
+            <ng-select [items]="provinces"
+                       name="Province"
+                       appendTo="body"
+                       bindValue="Id"
+                       bindLabel="Name"
+                       (change)="onProvinceChange()"
+                       (clear)="onResetProvince()"
+                       class="form-control custom-form"
+                       id="city"
+                       [(ngModel)]="appointment.Province">
+            </ng-select>
+          </div>
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Appointment.Customer_Address_District' | translate }}</label>
+            <ng-select [items]="districts"
+                       disabled="{{ !appointment.Province }}"
+                       name="District"
+                       appendTo="body"
+                       bindValue="Id"
+                       bindLabel="Name"
+                       (change)="onDistrictChange()"
+                       (clear)="onResetDistrict()"
+                       class="form-control custom-form"
+                       id="city"
+                       [(ngModel)]="appointment.District">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row col-md-12 p-0 m-0 mt-3">
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Appointment.Customer_Address_Ward' | translate }}</label>
+            <ng-select [items]="wards"
+                       disabled="{{ !appointment.District }}"
+                       name="Ward"
+                       bindValue="Id"
+                       bindLabel="Name"
+                       appendTo="body"
+                       class="form-control custom-form"
+                       (clear)="onResetWard()"
+                       id="city"
+                       [(ngModel)]="appointment.Ward">
+            </ng-select>
+          </div>
+          <div class="col-md-6">
+            <label for="phone-number" class="color-text">{{ 'Appointment.Customer_Address_NumberAndStreet' | translate }}</label>
+            <input type="text" class="form-control custom-form" id="phone-number" name="NumberAndStreet" placeholder="{{ 'Appointment.Customer_Address_NumberAndStreet' | translate }}" #address="ngModel" [(ngModel)]="appointment.Address">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mt-3">
+        <label for="phone-number" class="color-text">{{ 'Appointment.Appointment_Note' | translate }} </label>
+        <textarea class="form-control custom-form" name="Note" rows="7" #note="ngModel" [(ngModel)]="appointment.Note"></textarea>
+
+      </div>
+      <div class="row col-md-12">
+        <div>
+          <button type="button" [disabled]="invalid" class="btn btn-sm lmb-btn title m-auto d-block mt-3" style="text-transform: unset" (click)="onSubmit()">{{ 'Appointment.Appointment_Submit' | translate }}</button>
+        </div>
+      </div>
+      <div id="lmb-calendar"></div>
+    </form>
+  </div>
+  <div class="col-md-8 m-auto">
+    <div class="custom-background-form mt-3">
+      <h4 class="color-text">{{ 'Appointment.Treasure_Collection_With_LMB' | translate }}</h4>
+      <div class="form-group col-md-12 mt-1">
+        <div >
+          <label class="color-text">{{ 'Appointment.Address' | translate }}</label>
+          <span class="color-text-white"> {{ contactInfo.ContactAddress }} </span>
+        </div>
+        <div>
+          <label class="color-text">{{ 'Appointment.WorkingTime' | translate }}</label>
+          <span class="color-text-white"> {{ contactInfo.WorkingTime }}</span>
+        </div>
+        <div class="d-flex">
+          <label class="color-text">{{ 'Appointment.Facebook' | translate }}</label>
+          <a class="link-frontend" href="{{ contactInfo.Facebook }}" target="_blank"> <span class="ml-1">{{contactInfo.FacebookName }}</span></a>
+        </div>
+        <div class="d-flex">
+          <label class="color-text">{{ 'Appointment.Hotline_Zalo' | translate }}</label>
+          <span class="d-inherit">
+            <a class="link-frontend" *ngFor="let item of contactInfo.ContactPhoneNumberArr; let i = index" href="tel: {{ item}}">
+              <span class="ml-1">{{item}}</span>
+            
+                <span *ngIf="i + 1 < contactInfo.ContactPhoneNumberArr.length"> -</span>
+</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #lunarCalendar>
+  <lunar-calendar [selectedDate]="selectedBirthday" (onSelectDate)="onSelectDate($event)"></lunar-calendar>
+</ng-template>
+<ng-template #timeSelector>
+  <time-selector [selectedTime]="selectedTime" (onSelectedTime)="onSelectedTime($event)"></time-selector>
+</ng-template>

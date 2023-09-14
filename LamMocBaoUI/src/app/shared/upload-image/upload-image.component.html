@@ -1,0 +1,13 @@
+<div class="custom-file mb-3">
+  <input *ngIf="!allowMultiple" type="file" class="custom-file-input" name="Files" id="customFile" (change)="uploadFile($event)" accept="images/*" />
+  <input *ngIf="allowMultiple" type="file" class="custom-file-input" name="Files" id="customFile" (change)="uploadFile($event)" accept="images/*" multiple>
+  <label class="custom-file-label" for="customFile">{{ 'Common.SelectImage' | translate }}</label>
+</div>
+<div *ngIf="files && files.length" class="d-flex flex-wrap">
+  <div *ngFor="let file of files" class="img-preview w-f-content">
+    <img class="img-custom img-cannot-download" src="{{file.Url}}" />
+    <button type="button" class="btn btn-sm" *ngIf="allowRemove" (click)="removeImage(file)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>

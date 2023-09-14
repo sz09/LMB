@@ -1,0 +1,33 @@
+.knowledge-item {
+  background-color: #1a1a1a;
+  border-radius: 25px;
+  height: 100%
+}
+
+  .knowledge-item img {
+    border-radius: 25px;
+    height: 12rem
+  }
+
+  .knowledge-item h6 {
+    color: #ebb752
+  }
+
+.card-title {
+  color: #ebb752;
+}
+.custom-content-knowledge{
+    height: 150px
+}
+
+.custom-no-wrap-content-knowledge {
+  height: 60px;
+  -webkit-line-clamp: 3 !important;
+}
+
+@media only screen and (min-width: 450px) {
+  .custom-no-wrap-content-knowledge {
+    height: 77px;
+
+  }
+}

@@ -1,0 +1,37 @@
+.knowledge-detail-group {
+  background-color: #25292c70;
+  padding: 35px;
+  border-radius: 5px;
+}
+
+.knowledge-page-by-name img {
+  max-height: 300px;
+  max-width: 300px;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+*{
+    color: white;
+}
+.knowledge-page-by-name blockquote {
+  margin: unset !important;
+}
+
+.knowledge-page-by-name ol,
+.knowledge-page-by-name ul,
+.knowledge-page-by-name dl {
+  margin-top: unset !important;
+  margin-right: unset !important;
+  margin-bottom: unset !important;
+  margin-left: unset !important;
+  margin: unset !important;
+  padding-top: unset !important;
+  padding-right: unset !important;
+  padding-bottom: unset !important;
+  padding-left: unset !important;
+  padding: unset !important;
+}

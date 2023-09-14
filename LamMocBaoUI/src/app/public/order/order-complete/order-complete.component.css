@@ -1,0 +1,57 @@
+* {
+    color: white;
+}
+@font-face {
+  font-family: 'UVNKeChuyen2';
+  src: url('../../../../assets/webfonts/UVNKeChuyen2.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.order-success-group .order-success-title {
+  margin-top: 10px;
+  font-family: 'UVNKeChuyen2';
+  font-size: 3rem !important;
+  text-align: center;
+}
+
+.display-label {
+  margin-bottom: 0px !important;
+  margin-top: 1.5rem;
+  color: #ebb752;
+}
+.content-line {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+ol.content-line{
+    padding-left: unset;
+}
+
+ol {
+  list-style: none;
+  counter-reset: item;
+}
+
+li {
+  counter-increment: item;
+  margin-bottom: 5px;
+}
+  li:before {
+    margin-right: 10px;
+    content: counter(item) '.';
+    border-radius: 100%;
+    width: 1.2em;
+    text-align: center;
+    display: inline-block;
+  }
+
+ol li {
+  list-style-type: none;
+}
+
+.content-dash-line li:before {
+  content: "-";
+  margin-right: 10px;
+}

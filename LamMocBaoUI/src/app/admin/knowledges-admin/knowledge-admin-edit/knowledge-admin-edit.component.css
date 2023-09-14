@@ -1,0 +1,36 @@
+#KnowledgeContent .angular-editor-wrapper a {
+  color: yellow !important;
+}
+a[href] {
+  color: yellow !important;
+}
+
+quill-editor {
+    width: 100%;
+}
+
+.bound-child,
+.selected-tags .bound {
+  background-color: #e9e9e9;
+}
+.tags .bound {
+  /*border: 1px solid black;
+    border-radius: 15px;*/
+  margin: 3px 5px 3px 5px;
+}
+
+.selected-tags .content {
+  margin: 3px 0.3rem;
+}
+
+  .selected-tags .content i{
+    cursor: pointer;
+  }
+
+
+  .selected-tags .bound {
+    border: 1px solid;
+    border-radius: 5px;
+    margin-right: 3px;
+    margin-top: 0.5rem;
+  }

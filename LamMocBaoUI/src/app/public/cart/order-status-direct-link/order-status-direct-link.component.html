@@ -1,0 +1,7 @@
+<div class="row col-md-12 d-inline-block m-auto">
+  <a class="direct-link col-md-4 d-inline-block" [ngClass]="{'active': cartStatus.OnCart == status }">{{ 'Cart.Cart_Label' | translate}}</a>
+  <span class="step-to">></span>
+  <a class="direct-link col-md-4 d-inline-block" [ngClass]="{'active': cartStatus.OnPayment == status }">{{ 'Cart.Paid_Label' | translate}}</a>
+  <span class="step-to">></span>
+  <a class="direct-link col-md-4 d-inline-block" [ngClass]="{'active': cartStatus.Complete == status }">{{ 'Cart.Finish_Label' | translate}}</a>
+</div>

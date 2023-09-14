@@ -1,0 +1,96 @@
+.bound-child,
+.selected-tags .bound {
+  background-color: #e9e9e9;
+}
+
+.selected-categories,
+.selected-sizes,
+.selected-materials,
+.selected-sizes .bound {
+  margin-top: 3px;
+}
+
+.tags .bound {
+  /*border: 1px solid black;
+    border-radius: 15px;*/
+  margin: 3px 5px 3px 5px;
+}
+.selected-categories .content,
+.selected-tags .content,
+.selected-sizes .content,
+.selected-materials .bound-child {
+  margin: 3px 0.3rem;
+}
+    .selected-categories .content i,
+    .selected-tags .content i,
+    .selected-sizes .content i
+    {
+      cursor: pointer;
+    }
+  .selected-tags .content i,
+  .selected-materials .content i {
+    margin-left: 1rem;
+  }
+    .selected-materials .content i {
+        margin-right: 3px;
+    }
+    .selected-sizes .bound {
+    }
+        .selected-categories .bound .bound-child,
+        .selected-sizes .bound .bound-child,
+        .selected-materials .bound,
+        .selected-tags .bound {
+          border: 1px solid;
+          border-radius: 5px;
+          margin-right: 3px;
+          margin-top: 0.5rem;
+        }
+  .selected-sizes .bound .bound-child-1 {
+    margin: 5px;
+  }
+    .selected-sizes .bound::first-line {
+      border-bottom: none;
+    }
+    .selected-sizes .bound div.content {
+      width: calc(100% - 0.5rem);
+    }
+      .selected-sizes .bound div.content button {
+        float: right;
+      }
+  .selected-sizes .currency {
+  }
+
+.sub-category-level-1 {
+  margin: 5px 0.5rem 5px;
+}
+  .sub-category-level-1 label,
+  .sub-category-level-2 label {
+    padding-left: 0.5rem;
+    vertical-align: top;
+  }
+  .sub-category button {
+    margin-left: 5px;
+  }
+
+.sub-category-level-1 span {
+  padding-left: 1rem;
+}
+
+.sub-category-level-2 {
+  padding-left: 1rem;
+  margin: 5px 0.5rem 5px 3rem;
+}
+.sub-category {
+  height: 100%;
+  border-radius: 5px;
+  vertical-align: top;
+}
+  .sub-category > div {
+    padding: 5px;
+  }
+  .sub-category .remove-category {
+    float: right;
+    top: -0.5rem;
+    position: relative;
+    right: -0.5rem;
+  }

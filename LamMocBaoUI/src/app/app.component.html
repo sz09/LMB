@@ -1,0 +1,228 @@
+<div [hidden]="isLoadingDone">
+  <preparing></preparing>
+</div>
+<div *ngIf="isPublic" [hidden]="!isLoadingDone" class="m-auto container" [ngClass]="{'mobile-layout': isMobile, 'desktop-layout': !isMobile}">
+  <section>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
+      <div class="container">
+        <button style="color: #ebb752" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span>
+        </button>
+        <a class="navbar-brand align-items-center" routerLink="" [ngClass]="{'m-auto': isMobile}">
+          <img class="card-img img-custom" src="{{azureFileStorage}}/logoLBM.png" alt="top page">
+        </a>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <div class="d-block" style="width: 100%">
+            <div class="col-12 row" style="min-width: fit-content;">
+
+              <div class="form-group has-search col-md-6">
+                <span onclick="onClickSearchProduct($event)" class="fa fa-search form-control-feedback"></span>
+                <input id="productSearchBox" type="text" class="form-control input-search" [(ngModel)]="searchTerm" (keydown.enter)="onProductSearchChange($event)" placeholder="{{ 'Label.Search_Product' | translate }}">
+              </div>
+              <div class="button-register col-md-2">
+                <a routerLink="/dat-lich/dang-ky-thiet-ke-vat-pham-ca-nhan" class="button">{{ 'Label.Register_Product_Design' | translate }}</a>
+              </div>
+              <div class="button-register col-md-2">
+                <a routerLink="/dat-lich/phan-tich-menh-so" class="button">{{ 'Label.Book_date' | translate }}</a>
+              </div>
+              <div class="button-shopping-cart desktop-cart col-md-1">
+                <button class="custom-button-shopping-cart">
+                  <a class="custom-button-shopping-cart" routerLink="/gio-hang">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <span class="cart-quantity" *ngIf="countCarts > 0">{{ countCarts }}</span>
+                  </a>
+                </button>
+              </div>
+            </div>
+            <div class="nav-line"></div>
+            <ul class="navbar-nav mr-auto menu">
+              <li class="nav-item px-lg-2">
+                <a class="nav-link" routerLink="/dat-lich/dat-lich-xem-menh-so-voi-chuyen-gia"><span class="d-inline-block d-lg-none icon-width"></span> {{ 'Label.Fengshui_Designer' | translate }}</a>
+              </li>
+              <li class="nav-item px-lg-2"> <a class="nav-link" routerLink="/ve-chung-toi"><span class="d-inline-block d-lg-none icon-width"></span>{{ 'Label.About_Us' | translate }}</a> </li>
+              <li class="nav-item px-lg-2"> <a class="nav-link" routerLink="/vat-pham"><span class="d-inline-block d-lg-none icon-width"></span>{{ 'Label.Products' | translate }}</a> </li>
+              <li class="nav-item px-lg-2">
+                <a class="nav-link" routerLink="/kien-thuc"><span class="d-inline-block d-lg-none icon-width"></span>{{ 'Label.Knowledge' | translate }}</a>
+              </li>
+              <li class="nav-item px-lg-2">
+                <a class="nav-link" routerLink="/dat-lich/lien-he"><span class="d-inline-block d-lg-none icon-width"></span>{{ 'Label.Contact' | translate }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="button-shopping-cart mobile-cart">
+          <button class="custom-button-shopping-cart">
+            <a routerLink="/gio-hang">
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              <span class="cart-quantity" *ngIf="countCarts > 0">{{ countCarts }}</span>
+            </a>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </section>
+  <router-outlet></router-outlet>
+  <!-- Site footer -->
+  <footer class="site-footer">
+    <div id="lien-he" class="container w-100">
+      <a class="navbar-brand align-items-center" href="/">
+        <img class="card-img img-custom" style="margin-left:12px" [ngSrc]="getImageUrl('logoLBM.png')" alt="top page" height="150" width="150">
+      </a>
+      <div class="col-12 row">
+
+        <div class="col-xs-6 col-md-4 footer-links">
+          <h6>{{ 'Label.Contact_Info' | translate }}</h6>
+          <div class="icon-custom-footer-links">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+            <div class="information-custon-footer-links">
+              <span>{{ contactInfo.ContactAddress }}</span>
+            </div>
+          </div>
+          <div class="icon-custom-footer-links">
+            <i class="fa fa-mobile" aria-hidden="true"></i>
+            <div class="information-custon-footer-links">
+              <span>
+                <a *ngFor="let item of contactInfo.ContactPhoneNumberArr; let i = index" href="tel: {{ item}}">
+                  {{item}}
+                  <span *ngIf="i + 1 < contactInfo.ContactPhoneNumberArr.length">-</span>
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="icon-custom-footer-links">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <div class="information-custon-footer-links">
+              <span>{{ contactInfo.Email }}</span>
+            </div>
+          </div>
+          <div class="icon-custom-footer-links">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <div class="information-custon-footer-links">
+              <span>{{ contactInfo.WorkingTime }} </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-md-4">
+          <h6>{{ 'Label.Terms_And_Policy' | translate}}</h6>
+          <ul class="footer-links clickable">
+            <li><a (click)="openDialogShoppingGuide()">{{ 'Label.ShoppingGuide' | translate}}</a></li>
+            <li><a (click)="openDialogWarrantyAndReturns()">{{ 'Label.Warranty_And_Returns' | translate}}</a></li>
+            <li><a (click)="openDialogShippingPolicy()">{{ 'Label.Shipping_Policy' | translate}}</a></li>
+            <li><a (click)="openDialogPaymentPolicy()">{{ 'Label.Payment_Policy' | translate}}</a></li>
+            <li><a routerLink="/dat-lich/dang-ky-dai-ly">{{ 'Label.Agent_Registration' | translate}}</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <h6>{{ 'Label.Collection' | translate}}</h6>
+          <ul class="footer-links clickable">
+            <li><a routerLink="/vat-pham/nhom/vat-pham-theo-ngu-hanh">{{ 'Label.ByFiveElements' | translate}}</a></li>
+            <li *ngFor="let material of materials"><a routerLink="/vat-pham/chat-lieu/{{material.LinkName}}">{{material.Name}}</a></li>
+          </ul>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+          <h6>{{ 'Label.About_Us' | translate}}</h6>
+          <ul class="footer-links clickable">
+            <li><a routerLink="/ve-chung-toi">{{ 'Label.Introduce' | translate}}</a></li>
+            <li><a routerLink="/kien-thuc">{{ 'Label.Knowledge' | translate}}</a></li>
+            <li><a routerLink="/dat-lich/lien-he">{{ 'Label.Contact' | translate}} </a></li>
+            <li><a routerLink="/dat-lich/dat-lich">{{ 'Label.Booking' | translate}}</a></li>
+          </ul>
+        </div>
+     
+      </div>
+      <div class="col-12 row">
+        <div class="col-md-4">
+          <iframe *ngIf="isLoadingDone" [src]="googleMapUrl" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="col-md-4">
+          <h6>{{ 'Label.Connect_With_Us_Via' | translate}}</h6>
+          <ul class="social-icons">
+            <li>
+              <a class="youtube" href="{{ contactInfo.Youtube }}" target="_blank">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </li>
+            <li>
+              <a class="facebook" href="{{ contactInfo.Facebook}}" target="_blank">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+            </li>
+            <li>
+              <a class="instagram" href="{{ contactInfo.Instagram }}" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+</div>
+<!--End public page, temp-->
+<!--Admin page, temp-->
+<div *ngIf="!isPublic && isLoadingDone">
+  <section class="top header">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" routerLink="/admin/san-pham">
+        </a>
+        <div class="d-flex" style="width: 100px" *ngIf="userName">
+          <span class="text-white admin__avt"><i class="fa-regular fa-user"></i>{{userName}}</span>
+          <a class="m-3 text-white logout__button" (click)="doLogOff()"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+      </div>
+    </nav>
+    <div>
+      <div class="top header">
+        <div class="top lmb-nav">
+          <a class="navbar-brand d-flex align-items-center">
+            <img class="img-custom" src="{{azureFileStorage}}/logoLBM.png" alt="top page" style="height: 60px !important; width: 70px !important; margin: 0px; margin-left: -1.5rem;">
+          </a>
+        </div>
+      </div>
+      <div id="admin-layout" class="mt-3" [ngClass]="{'row col-md-12': adminLargeMenu, 'd-flex admin-layout-large': !adminLargeMenu }">
+        <div id="menu" [ngClass]="{'col-md-2': adminLargeMenu, 'w-f-content': !adminLargeMenu }">
+          <admin-navigation (onMenuSizeChange)="changeMenuSize($event)" [largeMenu]="adminLargeMenu"></admin-navigation>
+        </div>
+        <div id="main-content" class="main-content" [ngClass]="{'col-md-10': adminLargeMenu, 'content-large': !adminLargeMenu}">
+          <div>
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="contact_toolbar contact_toolbar_right" *ngIf="isPublic && isLoadingDone">
+  <ul>
+    <li>
+      <a href="tel:{{contactInfo.PrimaryPhone}}" title="Gọi ngay" class="callnow">
+        <i class="fa-solid fa-phone"></i>
+      </a>
+    </li>
+    <li>
+      <a href="{{contactInfo.Messenger}}" target="_blank" id="devvn_contact_2" title="Messenger" class="messenger">
+        <i class="fa-brands fa-facebook-messenger"></i>
+      </a>
+
+    </li>
+    <li>
+      <a href="https://zalo.me/{{contactInfo.ZaloPhone}}" target="_blank" id="devvn_contact_3" title="Zalo" class="zalo">
+        <div class="zalo-icon">
+          <img class="img-custom" width="30" height="30" src="../assets/iconImg/iconZalo.png" />
+        </div>
+      </a>
+
+    </li>
+
+  </ul>
+</div>
+
+
+<div id="main-loader" class="">
+  <div class="bars-1"></div>
+</div>

@@ -1,0 +1,22 @@
+<div class="step-title mb-3">
+  <span class="text-uppercase">{{ 'Label.Knowledge' | translate }}</span>
+</div>
+
+<div class="row col-12 m-auto" *ngIf="knowledge">
+  <div class="col-md-8 col-12  knowledge-detail-group">
+    <h1 class="color-text text-center seo-title">
+      {{knowledge.Name}}
+    </h1>
+    <h2 class="d-none">
+      {{knowledge.Name}}
+    </h2>
+    <div class="knowledge-page-by-name">
+      <div [innerHTML]="content">
+      </div>
+    </div>
+  </div>
+
+  <div class="d-inline-block col-md-4" [ngClass]="{'mt-3 p-0': isMobile }">
+    <list-link-knowledge></list-link-knowledge>
+  </div>
+</div>

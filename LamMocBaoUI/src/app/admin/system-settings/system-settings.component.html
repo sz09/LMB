@@ -1,0 +1,125 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="onSubmit()">
+  <div class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <div class="button-group pull-right">
+          <button type="submit" class="btn btn-sm btn-primary m-2">{{ 'Common.Update' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="form-content" *ngIf="systemSetting">
+          <div class="">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.Email' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.Email' | translate }}" name="Email" [(ngModel)]="systemSetting.Email">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.ContactPhoneNumbers' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.ContactPhoneNumbers' | translate }}" name="ContactPhoneNumbers" [(ngModel)]="systemSetting.ContactPhoneNumbers">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.PrimaryPhone' | translate }}</label>
+                <input type="text" class="form-control" maxlength="20" placeholder="{{ 'SystemSetting.PrimaryPhone' | translate }}" name="PrimaryPhone" [(ngModel)]="systemSetting.PrimaryPhone">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>
+                  {{ 'SystemSetting.WorkingTime' | translate }}
+                </label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.WorkingTime' | translate
+                  }}" name="WorkingTime" [(ngModel)]="systemSetting.WorkingTime">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.ContactAddress' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.ContactAddress' | translate }}" name="ContactAddress" [(ngModel)]="systemSetting.ContactAddress">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.Facebook' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.Facebook' | translate }}" name="Facebook" [(ngModel)]="systemSetting.Facebook">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.Youtube' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.Youtube' | translate }}" name="Youtube" [(ngModel)]="systemSetting.Youtube">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.Instagram' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.Instagram' | translate }}" name="Instagram" [(ngModel)]="systemSetting.Instagram">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.Zalo' | translate }}</label>
+                <input type="text" class="form-control" maxlength="20" placeholder="{{ 'SystemSetting.Zalo' | translate }}" name="Zalo" [(ngModel)]="systemSetting.ZaloPhone">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.Messenger' | translate }}</label>
+                <input type="text" class="form-control" maxlength="100" placeholder="{{ 'SystemSetting.Messenger' | translate }}" name="Messenger" [(ngModel)]="systemSetting.Messenger">
+              </div>
+            </div>
+            <div class="col-md-11">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.GoogleMapFrameUrl' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.GoogleMapFrameUrl' | translate }}" name="GoogleMapFrameUrl" [(ngModel)]="systemSetting.GoogleMapFrameUrl">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.BankName' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.BankName' | translate }}" name="BankName" [(ngModel)]="systemSetting.BankName">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.BankAccount' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.BankAccount' | translate }}" name="BankAccount" [(ngModel)]="systemSetting.BankAccount">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.CardHolderName' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.CardHolderName' | translate }}" name="CardHolderName" [(ngModel)]="systemSetting.CardHolderName">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 ">
+            <div class="col-md-12 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.NumberOfHighlightItems' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.NumberOfHighlightItems' | translate }}" name="NumberOfHighlightItems" [(ngModel)]="systemSetting.NumberOfHighlightItems">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 ">
+            <div class="col-md-12 ">
+              <div class="form-group">
+                <label>{{ 'SystemSetting.HighlightItemsInDays' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'SystemSetting.HighlightItemsInDays' | translate }}" name="HighlightItemsInDays" [(ngModel)]="systemSetting.HighlightItemsInDays">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

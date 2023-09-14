@@ -1,0 +1,26 @@
+<section id="ve-chung-toi">
+  <div class="pb-3 pt-3 d-flex">
+    <div class="magazine-title title">
+      <span>{{ 'Title.NewspaperTalkAbout' | translate }}</span>
+    </div>
+    <div id="myCarouselMagazie" class="carousel slide carousel slide w-100 ml-2 magazine-item" data-bs-ride="carousel">
+      <div class="carousel-inner" role="listbox">
+        <div *ngFor="let row of items; let i = index" class="carousel-item" #carouselRow>
+          <div *ngFor="let item of row" class="col-md-3 d-inline-block">
+            <a href="{{ item.Link }}" target="_blank" class="m-auto w-f-content">
+              <img class="card-img-top img-custom img-cannot-download" [ngSrc]="item.UploadedImage.Url" alt="{{ item.Hint }}" loading="lazy" height="100" width="250">
+            </a>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#myCarouselMagazie" role="button" data-bs-slide="prev">
+        <span class="fa fa-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#myCarouselMagazie" role="button" data-bs-slide="next">
+        <span class="fa fa-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</section>

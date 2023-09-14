@@ -1,0 +1,10 @@
+<div class="time-selector-bound fit-content rounded">
+  <div class="d-inline-block pb-2 pt-2 p-4">
+    <div class="row">
+      <input type="number" [(ngModel)]="hour" step="1" min="0" max="23" class="form-control fit-content d-inline-block" />
+      :
+      <input type="number" [(ngModel)]="minute" step="1" min="0" max="59" class="form-control fit-content d-inline-block" />
+    </div>
+    <button (click)="onTimeChange()" type="button" class="btn btn-outline-dark pull-right mt-1" style="margin-right: -10px">{{ 'Common.Select' | translate }}</button>
+  </div>
+</div>

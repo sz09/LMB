@@ -1,0 +1,28 @@
+  <div class="step-title mb-3">
+    <h1 class="d-none">{{ 'Title.LMB_Knowledges' | translate}}</h1>
+    <h2 class="text-uppercase">{{ 'Title.NewKnowledge' | translate}}</h2>
+  </div>
+  <div class="row m-auto d-inline-block w-100">
+    <div class="col-md-8 d-inline-block align-top" *ngIf="knowledges && knowledges.length">
+      <div class="custom-filter-knowledge-group" *ngFor="let knowledge of knowledges">
+        <a routerLink="/kien-thuc/{{knowledge.LinkName}}">
+          <p class="custom-filter-knowledge-date">{{ getDisplayPublishTime(knowledge)}}</p>
+          <h4 class="color-text">{{ knowledge.Name }}</h4>
+          <div class="row col-12">
+            <div class="custom-filter-knowledge-img col-4">
+              <img class="img-custom img-cannot-download" [ngSrc]="knowledge.UploadedImage.Url" height="200" width="200"/>
+            </div>
+            <div class="custom-filter-knowledge-content col-8">{{ knowledge.Summary }}</div>
+          </div>
+        </a>
+      </div>
+      <pagination [total]="total" [pageSize]="payload.PageSize" [selectedPage]="payload.Page" (onPageChange)="pageChange($event)"></pagination>
+    </div>
+    <div class="col-md-8 d-inline-block align-top" *ngIf="!knowledges || !knowledges.length">
+      <p class="color-text"> <i>{{ 'Knowledge.No_Result' | translate}}</i></p>
+    </div>
+    <div class="col-md-4 d-inline-block">
+      <list-link-knowledge></list-link-knowledge>
+    </div>
+  </div>
+

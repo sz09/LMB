@@ -1,0 +1,8 @@
+
+::ng-deep .ngxImageZoomContainer > img {
+  cursor: zoom-in;
+}
+::ng-deep .ngxImageZoomContainer,
+::ng-deep .ngxImageZoomContainer > img {
+  pointer-events: unset !important;
+}

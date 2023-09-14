@@ -1,0 +1,75 @@
+<div class="step-title">
+  <span class="text-uppercase">{{ 'Order.Finish_Label' | translate }}</span>
+</div>
+<div class="group-direct-link mt-3">
+  <order-status-direct-link [status]="cartStatus.Complete"></order-status-direct-link>
+</div>
+
+<div class="row col-md-8 m-auto form-group order-success-group" *ngIf="orderSuccessInfos">
+  <div class="f-content m-auto header">
+    <label class="color-text order-success-title">{{ 'Order.Order_Success_Label' | translate }}</label>
+  </div>
+  <div class="form-group">
+    <label class="display-label">
+      {{ 'Order.Order_Instructions_for_use_and_Maintenance' | translate }}
+    </label>
+    <div class="content">
+      <p class="content-line">Các vật phẩm tâm kinh thường dùng với mục đích cầu bình an – may mắn và thịnh vượng, Là các vật chất tinh sạch nên cần chúng ta lưu ý bảo quản như sau để giữ cho chuỗi cũng như năng lượng của chuỗi được tốt nhất. </p>
+      <ol class="content-line">
+        <li>
+          Tuyệt đối tránh nước tẩy rửa – xà phòng,các chất có tính khử cao như rượu, cồn,  nước mưa. Với nước thường hạn chế tiếp xúc càng ít càng tốt đặc biệt với dòng sản phẩm là gỗ và san hô.
+        </li>
+        <li>
+          Không đeo vật phẩm khi quan hệ nam nữ
+        </li>
+        <li>
+          Độ bóng và lên nước của hạt phụ thuộc vào dầu mô hôi mỗi người.
+        </li>
+      </ol>
+      <span class="content-line">Có 3 nhóm mồ hôi chính:</span>
+      <ol class="content-dash-line">
+        <li>
+          Nhóm làm bóng và đậm hạt: Loại mồ hôi tốt nhất và rất hợp với việc đeo gỗ và các loại hạt.
+        </li>
+        <li>
+          Nhóm nhạt bạc màu hạt: Bất kể loại gỗ thực vật, hoặc vật loeiej nào chạm tới dầu cơ thể này sẽ có phản ứng sinh hóa ngày càng mất màu và bạc đi.
+        </li>
+        <li>
+          Nhóm dầu cơ cơ thể làm đen kịt hạt: Bất kể loại gỗ, hạt thực vật nào chạm tới mồ hôi này lâu ngày đều sẽ tối màu và đậm lại, có khi hóa đen.
+        </li>
+        <li>Lưu ý: Một bộ phận ít người sẽ bị dị ứng với các loại gỗ nhiều tinh dầu tính nóng như: Tử Đàn, trầm …Với trường hợp này có thể đổi sang các vật phẩm ít tinh dầu hơn, hoặc ngọc, đá quý, san hô. </li>
+      </ol>
+      <p>Mỗi năm bạn nên thay dây một lần vào dịp tết hoặc 2 năm/lần tuỳ vào công việc, cuộc sống hằng ngày. Tự xâu là tốt nhất, điều này có thể gia tăng sự kết nối của người đeo và chuỗi vật phẩm. Chuỗi khó xin hãy liên hệ với chúng tôi để được hỗ trợ. </p>
+      <p>Để làm bóng hạt tại nhà, bạn có thể nhỏ vài giọt dầu oliu hoặc dầu dừa vào giấy thấm dầu rồi xoa đều lên từng hạt, chuỗi sẽ bóng trở lại. </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="display-label">
+      {{ 'Order.Order_Warranty_And_Return_Policy' | translate }}
+    </label>
+    <div class="content">
+      <ol class="content-line">
+        <li>Chúng tôi cam kết chất lượng về sản phẩm, nguồn gốc hoàn toàn tự nhiên. Tại bất cứ thời điểm nào bạn thấy vật phẩm của chúng tôi không đúng tự nhiên như chúng tôi cam kết, chúng tôi sẽ nhận lại hàng và hoàn tiền 100%.</li>
+        <li>Hỗ trợ đổi trả trong 15 ngày đầu sử dụng nếu không ưng ý.</li>
+        <li>Trong các trường hợp không may chuỗi bị va đập mạnh gây nứt vỡ, đụng nước/xà phòng nhiều dẫn đến bào mòn lớp bảo vệ bên ngoài hạt (san hô),… Tuỳ vào tình trạng chuỗi, Lâm Mộc Bảo sẽ có phương án hỗ trợ bạn trong việc thay hạt hoặc sửa/nâng cấp chuỗi.</li>
+        <li>Về dây vòng chúng tôi bảo hành trọn đời, nên bất cứ lúc nào bạn cần hỗ trợ về thay dây bạn có thể liên lạc trực tiếp với chúng tôi qua page hoặc số điện thoại CSKH: 0898 6666 71 – 088 66666 71.</li>
+      </ol>
+  </div>
+  </div>
+  <div class="form-group">
+    <label class="display-label">
+      {{ 'Order.Order_After_Sell_Policy' | translate }}
+    </label>
+    <div class="content">
+      <ol class="content-line">
+        <li>Trong suốt quá trình bạn sử dụng vật phẩm: Chúng tôi sẽ luôn đồng hành cùng bạn. Vậy nên khi có bất kì câu hỏi hay khúc mắc nào về cuộc sống hằng ngày, vật phẩm hay lá số bạn có thể chủ động liên hệ để được hỗ trợ giải đáp bởi các chuyên gia của Lâm Mộc Bảo.</li>
+        <li>Hỗ trợ vận hạn hằng năm: Hằng năm vào dịp đầu năm đến cuối năm Lâm Mộc Bảo sẽ có chương trình xem vận hạn, cũng như lưu ý tốt xấu trong năm đó, thời vận đó để khách hàng có thể có những tính toán và chuẩn bị riêng.</li>
+        <li>Hỗ trợ xem lá số người thân, đồng nghiệp, đối tác dự định kinh doanh, những điểm cần lưu ý khi làm việc cùng các lá số này. Xác định điểm mạnh, điểm yếu, tiềm năng, định hướng của người thân, hoặc nhân viên.</li>
+        <li>Được hỗ trợ về các gói tư vấn khác của Lâm Mộc Bảo: Như gói xem bát tự chuyên sâu, gói xem về sim phong thủy, biển số xe, chọn ngày đẹp, chọn giờ sinh, đặt tên …</li>
+        <li>Đổi trả trong 15 ngày, bảo hành dây trọn đời.</li>
+        <li>Kênh Zalo riêng biệt dành riêng hỗ trợ khách hàng đã mua hàng.  Được trả lời trực tiếp bởi các chuyên gia và trợ lý cá nhân có kiến thức chuyên sâu về bát tự và những lĩnh vực cụ thể trong đời sống. </li>
+      </ol>
+    </div>
+  </div>
+  <label>Trân trọng!</label>
+</div>

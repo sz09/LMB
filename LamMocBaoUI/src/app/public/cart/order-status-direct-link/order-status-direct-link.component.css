@@ -1,0 +1,17 @@
+.col-md-4 {
+    margin-left: 10px;
+    margin-right: 10px;
+    width:fit-content;
+}
+::ng-deep order-status-direct-link {
+  min-width: 750px !important;
+}
+@media only screen and (max-width: 450px) {
+  ::ng-deep order-status-direct-link {
+    min-width: unset !important;
+  }
+  .step-to,
+  .direct-link:not(.active) {
+    display: none !important;
+  }
+}

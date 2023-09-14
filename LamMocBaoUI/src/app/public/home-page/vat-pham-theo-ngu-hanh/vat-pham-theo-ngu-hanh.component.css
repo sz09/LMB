@@ -1,0 +1,26 @@
+
+.product-item {
+  background-color: #1a1a1a;
+  border-radius: 25px;
+}
+
+  .product-item img {
+    border-radius: 25px;
+    /*width: auto;*/
+    height: 12rem;
+  }
+
+  .product-item h6 {
+    display: block;
+    text-align: end;
+    text-decoration: none;
+    font-style: italic;
+    color: #ebb752;
+  }
+
+  .product-item h5 {
+    color: #ebb752;
+  }
+.product-bound .product-item {
+  cursor: pointer;
+}

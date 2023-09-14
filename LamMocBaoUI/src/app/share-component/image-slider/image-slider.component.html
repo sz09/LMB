@@ -1,0 +1,20 @@
+<div class="card detail-card">
+  <div class="card-image card-padding" *ngIf="images && showingStates">
+    <div *ngFor="let image of images; let i = index" class="card__image mb-2"
+         [ngClass]="{'d-none': !showingStates[i].IsDisplay}" #container>
+      <img class="img-main-custom img-custom" [ngSrc]="image.Url" width="500" height="500"
+         (click)="openDialogImage(image, $event)" onContextMenu="return false;" />
+    </div>
+    <div class="images-slider" *ngIf="images && showingStates" #previewSlider>
+      <a class="prev" (click)="prev()">❮</a>
+      <div class="images-slider-content">
+        <div *ngFor="let image of images; let i = index" class="preview-button m-2"
+             [ngClass]="{'border-selected': showingStates[i].IsDisplay}"
+             (click)="showImage(i)">
+          <img class="img-preview-custom img-custom img-cannot-download" [ngSrc]="image.Url" height="100" width="100"/>
+        </div>
+      </div>
+      <a class="next" (click)="next()">❯</a>
+    </div>
+  </div>
+</div>

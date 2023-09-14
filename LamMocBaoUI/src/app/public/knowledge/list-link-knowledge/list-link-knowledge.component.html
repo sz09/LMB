@@ -1,0 +1,38 @@
+<div class="hide-in-mobile row col-md-12 m-auto">
+  <div class="line-through col-md-1" [ngClass]="{'d-inline': !isMobile, 'd-none': isMobile}"></div>
+  <div class="d-inline col-md-10" [ngClass]="{'p-1': isMobile}">
+    <h5 class="color-text">{{ 'Knowledge.Treasure' | translate}}</h5>
+    <div class="custom-knowledge-href-group">
+      <a class="link-frontend" *ngFor="let item of listKnowledges" routerLink="/kien-thuc/{{item.LinkName}}">{{ item.Name }}</a>
+    </div>
+    <div class="nav-line"></div>
+    <h5 class="color-text">{{ 'Knowledge.KnowledgeTrend' | translate}}</h5>
+    <div class="custom-knowledge-href-group">
+      <a class="link-frontend" *ngFor="let item of knowledgesOnTrend" routerLink="/kien-thuc/{{item.LinkName}}">{{ item.Name }}</a>
+    </div>
+    <div class="nav-line"></div>
+    <h5 class="color-text">{{ 'Knowledge.Search' | translate}}</h5>
+    <div class="form-group has-search">
+      <span (click)="onSearchKnowledge()" class="fa fa-search form-control-feedback-knowledge"></span>
+      <input type="text" class="form-control input-search" [(ngModel)]="searchTerm" (keydown.enter)="onSearchKnowledge()" placeholder="{{ 'Knowledge.Search_Placeholder' | translate}}">
+    </div>
+    <div class="nav-line"></div>
+    <h5 class="color-text">{{ 'Product.HotTrend' | translate}}</h5>
+    <div *ngFor="let item of productsOnTrend" class="d-flex custom-hot-product">
+      <a routerLink="/vat-pham/{{item.LinkName}}">
+        <img class="img-custom img-cannot-download" [ngSrc]="item.ImagePreview" style="border-radius: 5px" height="100" width="100" />
+        <div class="custom-hot-product-information">
+          <p class="pre-wrap" [innerHTML]="item.Name"></p>
+          <span class="color-text">{{ item.SellingPrice | lmbcurrency}}</span>
+        </div>
+      </a>
+    </div>
+    <button class="register-box-title mt-2">
+      <h4 class="color-text font-weight-bold">
+        <a routerLink="/dat-lich/dang-ky-thiet-ke-vat-pham-ca-nhan" class="color-text">
+          {{ 'Label.Register_Product_Design' | translate}}
+        </a>
+      </h4>
+    </button>
+  </div>
+</div>

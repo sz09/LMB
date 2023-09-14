@@ -1,0 +1,24 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="onSubmit()">
+  <div class="main-dialog" id="main-modal" role="dialog" *ngIf="model">
+    <div class="modal-header">
+      <h5 class="modal-title">{{ 'Common.Update' | translate }}</h5>
+      <div class="button-group pull-right">
+        <button type="submit" class="btn btn-sm btn-primary m-2">{{ 'Common.Update' | translate }}</button>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="form-content">
+        <div class="row col-md-12">
+          <div class="form-group">
+            <quill-editor name="AboutUs" style="width:100%"
+                          [styles]="{height: '800px'}"
+                          [modules]="modules"
+                          [(ngModel)]="model.AboutUs"
+                          (onEditorCreated)="addBindingCreated($event)">
+            </quill-editor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

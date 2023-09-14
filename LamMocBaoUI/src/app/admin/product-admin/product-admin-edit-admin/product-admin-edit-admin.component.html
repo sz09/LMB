@@ -1,0 +1,238 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="onSubmit()">
+  <div *ngIf="product" class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ (isNew ? 'Common.Create': 'Common.Update' ) | translate }}</h5>
+        <div class="button-group pull-right">
+          <button type="submit" class="btn btn-sm btn-primary m-2">{{ ( isNew ? 'Common.Save': 'Common.Update') | translate }}</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="backToGrid()">{{ 'Common.Back' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="form-content">
+          <div class="row col-md-12">
+            <div class="form-group">
+              <label> {{ 'Product.Name' | translate }} </label>
+              <input type="text" class="form-control" maxlength="400" placeholder="{{ 'Product.Name' | translate }}" name="Name" [(ngModel)]="product.Name" required>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label>{{ 'Label.ProductTypes' | translate }}</label>
+                <div class="">
+                  <ng-select [items]="productTypes"
+                             name="ProductTypeId"
+                             appendTo="body"
+                             bindValue="Id"
+                             bindLabel="Label"
+                             class="form-control custom-form"
+                             [clearable]="false"
+                             id="city"
+                             [(ngModel)]="product.ProductTypeId">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group col-md-8">
+                <label>{{ 'Product.From' | translate }}</label>
+                <div class="col-md-12 row pl-0">
+                  <div class="col-md-6 d-inline-block">
+                    <input type="text" class="form-control" placeholder="{{ 'Product.From' | translate }}" name="ProductFrom" [(ngModel)]="product.ProductFrom" title="{{ 'Product.FromErrorMessage' | translate }}">
+                  </div>
+
+                  <div class="col-md-2 form-check form-check-inline d-inline-block">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="product.IsRarely" name="IsRarely" value="true" id="IsRarely" [attr.checked]="product.IsRarely" />
+                    <label class="form-check-label" for="IsRarely">{{ 'Product.Rarely_Item' | translate }} </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-3" [ngClass]="{'mt-2': selectedCategories && selectedCategories.length}">
+                <label>{{ 'Label.Categories' | translate }}</label>
+                <div class="">
+                  <ng-select [items]="categories"
+                             name="CategoryId"
+                             appendTo="body"
+                             bindValue="Id"
+                             bindLabel="Label"
+                             class="form-control custom-form"
+                             id="city"
+                             (change)="addCategory($event)"
+                             [(ngModel)]="fakeCategoryId">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <label></label>
+                <div class="selected-categories col-md-12">
+                  <div class="bound d-inline-block col-md-3 sub-category" *ngFor="let item of selectedCategories">
+                    <div class="bound-child">
+                      <div class="content d-block">
+                        {{ item.Label }}
+
+                        <button type="button" class="btn remove-category" (click)="removeCategory(item)">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div *ngFor="let sub1 of item.ExtraInfos; let isub1 = index">
+                          <p class="sub-category-level-1">
+                            <input type="checkbox" class="form-check d-inline" [(ngModel)]="sub1.checked" [ngModelOptions]="{standalone: true}" id="sub1{{item.Id}}-{{isub1}}" (change)="onToggleSub1(item, sub1)" />
+                            <label for="sub1{{item.Id}}-{{isub1}}">{{sub1.Name}}</label>
+                          </p>
+                          <div *ngFor="let sub2 of sub1.SubCategories; let isub2 = index">
+                            <p class="sub-category-level-2">
+                              <input type="checkbox" [(ngModel)]="sub2.checked" [disabled]="!sub1.checked" [ngModelOptions]="{standalone: true}" class="form-check d-inline" id="sub2{{item.Id}}-{{isub1}}-{{isub2}}" (change)="onToggleSub2(item, sub1, sub2)" />
+                              <label for="sub2{{item.Id}}-{{isub1}}-{{isub2}}">{{sub2.Name}}</label>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-3" [ngClass]="{'mt-2': selectedTags && selectedTags.length}">
+                <label>{{ 'Label.Tags' | translate }}</label>
+                <ng-select [items]="tags"
+                           name="TagId"
+                           appendTo="body"
+                           bindValue="Id"
+                           bindLabel="Label"
+                           class="form-control custom-form"
+                           id="tag"
+                           (change)="addTag($event)"
+                           [(ngModel)]="fakeTagId">
+                </ng-select>
+              </div>
+              <div class="col-md-9">
+                <label></label>
+                <div class="selected-tags">
+                  <div class="bound d-inline-block w-f-content" *ngFor="let item of selectedTags">
+                    <div class="content d-block">
+                      {{ item.Label }}
+                      <button type="button" class="btn remove-tag" (click)="removeTag(item)">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--<div class="form-group row">
+              <div class="col-md-3" [ngClass]="{'mt-2': selectedMaterials && selectedMaterials.length}">
+                <label>{{ 'Label.Materials' | translate }}</label>
+                <ng-select [items]="materials"
+                           name="MaterialId"
+                           appendTo="body"
+                           bindValue="Id"
+                           bindLabel="Label"
+                           class="form-control custom-form"
+                           id="material"
+                           (change)="addMaterial($event)"
+                           [(ngModel)]="fakeMaterialId">
+                </ng-select>
+              </div>
+              <div class="col-md-9">
+                <label></label>
+                <div class="selected-materials">
+                  <div class="bound d-inline-block w-f-content" *ngFor="let item of selectedMaterials">
+                    <div class="bound-child">
+                      <div class="content d-block">
+                        {{ item.Label }}
+                        <button type="button" class="btn remove-material" (click)="removeMaterial(item)">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+            <div class="form-group ">
+              <div class="col-md-12 row">
+                <div class="col-md-6 pl-0 d-inline-block">
+                  <label>{{ 'Product.PurchasingPrice' | translate }}</label>
+                  <div class="input-group">
+                    <input type="number" [(ngModel)]="product.PurchasingPrice" class="form-control currency" placeholder="{{ 'Product.PurchasingPrice' | translate }}" name="PurchasingPrice" aria-describedby="currency-2">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="currency-2">{{ currencySymbol }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 pr-0 d-inline-block">
+                  <label>{{ 'Product.SellingPrice' | translate }}</label>
+                  <div class="input-group">
+                    <input type="number" [(ngModel)]="product.SellingPrice" class="form-control currency" placeholder="{{ 'Product.SellingPrice' | translate }}" name="SellingPrice" aria-describedby="currency-2">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="currency-2">{{ currencySymbol }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2">
+                <div [ngClass]="{'mt-2': product.SupportedSizes && product.SupportedSizes.length}">
+                  <label>{{ 'Label.Sizes' | translate }}</label>
+                  <div class="col-md-12">
+                    <ng-select [items]="sizes"
+                               name="SizeId"
+                               appendTo="body"
+                               bindValue="Id"
+                               bindLabel="Label"
+                               class="form-control custom-form"
+                               id="city"
+                               (change)="addSize($event)"
+                               [(ngModel)]="fakeSizeId">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="selected-sizes mt-3" *ngIf="product.SupportedSizes">
+                  <div class="bound d-inline-block col-md-4" *ngFor="let item of product.SupportedSizes; let i = index">
+                    <div class="bound-child mt-3">
+                      <div class="bound-child-1">
+                        <div class="content d-inline-block">
+                          {{ item.Label }}
+
+                          <button type="button" class="btn" (click)="removeSize(item.SizeId)">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="input-group">
+                          <input type="number" class="form-control currency" [(ngModel)]="item.SellingPrice" aria-describedby="currency-3" name="SizeSellingPrice-{{i}}" />
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="currency-3">{{ currencySymbol }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>{{ 'Product.Description' | translate }}</label>
+              <div class="col-md-12">
+                <textarea class="form-control" placeholder="{{ 'Product.Description' | translate }}" name="Description" rows="3" [(ngModel)]="product.Description"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>{{ 'Product.Summary' | translate }}</label>
+              <div class="col-md-12">
+                <textarea class="form-control" placeholder="{{ 'Product.Summary' | translate }}" name="Infomations" rows="20" [(ngModel)]="product.Infomations"></textarea>
+              </div>
+            </div>
+            <div class="form-group d-block upload-image mt-3" *ngIf="product.Id">
+              <div class="col-md-12">
+                <upload-image [entityId]="product.Id" [entityType]="'Product'" [files]="images"  [allowRemove]="true"  [allowMultiple]="true" (onUploaded)="onUploaded($event)" (onRemove)="onRemove($event)"></upload-image>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

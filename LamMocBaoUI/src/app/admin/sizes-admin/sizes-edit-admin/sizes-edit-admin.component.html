@@ -1,0 +1,29 @@
+<form class="custom-background-form white" #f="ngForm" novalidate (submit)="onSubmit()">
+  <div *ngIf="size" class="main-dialog" id="main-modal" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ (isNew ? 'Common.Save': 'Common.Update' ) | translate }}</h5>
+        <div class="button-group pull-right">
+          <button type="submit" class="btn btn-sm btn-primary m-2">{{ ( isNew ? 'Common.Save': 'Common.Update') | translate }}</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="backToGrid()">{{ 'Common.Back' | translate }}</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="form-content">
+          <div class="row col-md-12">
+            <div class="form-group">
+              <label>{{ 'Size.Number' | translate }}</label>
+              <input type="number" class="form-control" name="Number" placeholder="{{ 'Size.Number' | translate }}" [(ngModel)]="size.Number" required title="{{ 'Size.Number_ErrorMessage' | translate }}"/>
+            </div>
+          </div>
+          <div class="row col-md-12">
+            <div class="form-group">
+              <label>{{ 'Size.Unit' | translate }}</label>
+              <input type="text" class="form-control" name="Unit" placeholder="{{ 'Size.Unit' | translate }}" [(ngModel)]="size.Unit" required title="{{ 'Size.Unit_ErrorMessage' | translate }}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

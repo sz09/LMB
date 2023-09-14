@@ -1,0 +1,84 @@
+<div class="mt-2 p-0" *ngIf="mode == showMode.Create">
+  <news-paper-post-admin-edit (onClose)="mode = showMode.ShowGrid"></news-paper-post-admin-edit>
+</div>
+<div *ngIf="mode == showMode.ShowGrid">
+  <div class="row col-md-12 d-inline-block">
+    <div class="col-md-8 d-inline-block">
+      <div class="input-group">
+        <input type="text" aria-label="Input group example"
+               id="searchMaterial" class="form-control form-control-sm"
+               placeholder="{{ 'Size.Search_Placeholder' | translate }}"
+               name="Search" [(ngModel)]="payload.Search"
+               aria-describedby="btnSearchBtn"
+               (keydown.enter)="loadData()">
+        <button class="search-button btn btn-sm btn-light d-block input-group-text" id="btnSearchBtn" (click)="loadData()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-4 d-inline-block">
+      <button class="btn btn-outline-success pull-right ml-1" (click)="updatePosition()">
+        {{ (isUpdatingPosition ? 'Common.Save': 'Common.UpdatePosition')| translate}}
+      </button>
+      <button *ngIf="!isUpdatingPosition" class="btn btn-success float-end pull-right" (click)="create()">
+        {{ 'Common.Create' | translate}}
+      </button>
+    </div>
+  </div>
+  <div class="row mt-2 p-0">
+    <div class="col-md-12 p-0">
+      <div class="table-wrap table-responsive-lg">
+        <ngx-datatable class="material colored-header md table table-striped table-hover"
+                       style="height: calc(100vh - 200px)"
+                       [loadingIndicator]="loadingIndicator"
+                       [rows]="rows"
+                       [rowHeight]="100"
+                       [headerHeight]="35"
+                       [footerHeight]="35"
+                       [scrollbarH]="true"
+                       [scrollbarV]="true"
+                       [virtualization]="false"
+                       [columns]="columns"
+                       [columnMode]="'force'"
+                       [displayCheck]="displayCheck"
+                       [externalPaging]="true"
+                       [externalSorting]="true"
+                       [count]="total"
+                       [offset]="payload.PageSize"
+                       [messages]="gridMessage"
+                       [sorts]="[{dir: 'Name', prop: 'asc'}]">
+        </ngx-datatable>
+      </div>
+    </div>
+    <pagination [total]="totalRows" [pageSize]="payload.PageSize" [selectedPage]="payload.Page" (onPageChange)="pageChange($event)"></pagination>
+  </div>
+
+  <ng-template #hintTemplate let-rowIndex="rowIndex" let-row="row" let-value="value">
+    <a href="{{ row.Link }}" target="_blank">{{ row.Hint }}</a>
+  </ng-template>
+
+  <ng-template #imagesTemplate let-rowIndex="rowIndex" let-row="row" let-value="value">
+    <div class="d-inline-block image-preview">
+      <img [src]="row.UploadedImage.Url" height="90" width="90" />
+    </div>
+  </ng-template>
+
+  <ng-template #actionTemplate let-rowIndex="rowIndex" let-row="row" let-value="value">
+    <div class="group-btn-actions">
+      <div *ngIf="isUpdatingPosition" class="d-flex">
+        <span style="width: 32px" class="d-inline-block col-md-6">
+          <button class="btn btn-sm btn-outline-dark" *ngIf="rowIndex > 0" (click)="moveUp(rowIndex)"><i class="fa-solid fa-chevron-up"></i></button>
+        </span>
+        <span style="width: 32px" class="d-inline-block col-md-6">
+          <button class="btn btn-sm btn-outline-dark" *ngIf="rowIndex < rows.length -1" (click)="moveDown(rowIndex)"><i class="fa-solid fa-chevron-down"></i></button>
+        </span>
+      </div>
+      <a *ngIf="!isUpdatingPosition" routerLink="/admin/bao-chi/{{row.Id}}" class="btn btn-sm btn-outline-dark">
+        <i class="fas fa-edit"></i>
+      </a>
+      <a *ngIf="!isUpdatingPosition" (click)="onDelete(row)" class="btn btn-sm btn-outline-danger">
+        <i class="fas fa-trash"></i>
+      </a>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,141 @@
+
+<label *ngIf="!product"><i>{{ 'Product.No_Result' | translate }}</i></label>
+<div class="step-title custom-href-group" *ngIf="product">
+  <span><a routerLink="">{{ 'Title.HomePage' | translate }}</a> / <a routerLink="../../vat-pham">{{ 'Title.Products' | translate }}</a></span>
+</div>
+<div class="product-by-name" *ngIf="product">
+  <meta property="og:title" content="{{ product.Name }}">
+  <meta property="og:description" content="{{ product.Description }}">
+  <div class="row col-md-12 p-3">
+    <div class="col-md-5">
+      <image-slider [images]="product.Images"></image-slider>
+    </div>
+    <div class="col-md-4">
+      <div class="row col-md-12">
+        <h1 class="product-name color-text seo-title">{{ product.Name }}</h1>
+      </div>
+
+      <div *ngIf="product.Materials && product.Materials.length" class="row col-md-12 product-material">
+        <input type="hidden" id="SelectedMaterial" name="SelectedMaterialId" />
+        <div class="row col-md-12"><h5>{{ 'Product.Material' | translate }}:</h5></div>
+        <div class="btn-group custom-button-group custom-disbaled-button btn-group-toggle d-inline-block"
+             data-bs-toggle="buttons">
+          <label *ngFor="let material of product.Materials" class="btn btn-outline-light m-1 d-inline-block w-f-content">
+            <input type="radio" disabled name="Material" id="Material" value="{{ material.Id }}"> {{ material.Name }}
+          </label>
+        </div>
+      </div>
+
+      <div class="row col-md-12 product-size" *ngIf="product.SupportedSizes">
+        <input type="hidden" id="SelectedSize" />
+        <div class="row col-md-12"><h5>{{ 'Product.Size_Necklace' | translate }}</h5></div>
+        <div class="btn-group custom-button-group btn-group-toggle d-inline-block" data-bs-toggle="buttons">
+          <label class="btn btn-outline-light m-1 d-inline-block w-f-content"
+                 *ngFor="let size of product.SupportedSizes"
+                 [ngClass]="{'selected': size.Id == selectedSizeId}">
+            <input type="radio" [(ngModel)]="selectedSizeId" name="Size" value="{{ size.Id }}"
+                   (change)="onSizeChange(size)" />
+            {{ size.Number }} {{ size.Unit }}
+          </label>
+        </div>
+        <div class="row ml-3 text-danger col-md-12" [ngClass]="{'d-none': validStates.Size }" id="size-error">
+          <small><i>{{ 'Error.PleaseSelectSize' | translate }}</i></small>
+        </div>
+      </div>
+
+      <div class="row col-md-12">
+        <div class="product-price">{{ sellingPrice | lmbcurrency}}</div>
+        <div class="row col-md-12 add-to-cart">
+          <div class="col-2 quantity-number">
+            <input class="col-2 width-input-mobile-screen" type="number" min="1" step="1" id="Quantity" name="Quantity" [(ngModel)]="quantity" />
+          </div>
+          <div class="col-9">
+            <button type="button" class="btn paid-button lmb-btn" id="add-to-cart" (click)="addToCart()" style="width: auto">{{ 'Product.AddToCart' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-md-8 mt-2">
+        <div *ngIf="product.IsRarely" class="card border" name="quantity-by-size">
+          <div class="card-header">
+            <span class="text-danger">{{ 'Product.Stock_Message_Show_Rare_Can_Order_To_Create' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 title p-3 rounded-3 mt-2">
+        <p class="contact-number">
+          <span>
+            <a *ngFor="let item of contactInfo.ContactPhoneNumberArr; let i = index" href="tel: {{ item}}">
+              {{item}}
+              <span *ngIf="i + 1 < contactInfo.ContactPhoneNumberArr.length">-</span>
+            </a>
+          </span>
+        </p>
+        <p class="contact-title">{{ 'Cart.ContactToAdvise' | translate }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-box-should-choose-us-product-link p-3">
+        <div class="row col-md-12 p-0 m-0">
+          <div class="d-flex img-icon-custom">
+            <img class="img-custom img-cannot-download" src="../../assets/iconImg/discussImg.png" />
+            <p class="color-text">Sản phẩm được thiết kế bởi các chuyên gia Bát Tự</p>
+          </div>
+          <div class="d-flex img-icon-custom">
+            <!--@*<a target="_blank" href="https://icons8.com/icon/TLnToXNqmdBC/award">Award</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>*@-->
+            <img class="img-custom img-cannot-download" src="../../assets/iconImg/award.png" />
+            <p class="color-text">Thiết kế độc nhất theo mệnh</p>
+          </div>
+          <div class="d-flex img-icon-custom">
+            <!--@*<a target="_blank" href="https://icons8.com/icon/TLnToXNqmdBC/award">Award</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>*@-->
+            <img class="img-custom img-cannot-download" src="../../assets/iconImg/protectImg.png" />
+            <p class="color-text">Cam kết sản phẩm 100% chất lượng tự nhiên cao cấp</p>
+          </div>
+          <div class="d-flex img-icon-custom">
+            <!--@*<a target="_blank" href="https://icons8.com/icon/TLnToXNqmdBC/award">Award</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>*@-->
+            <img class="img-custom img-cannot-download" src="../../assets/iconImg/forward15Img.png" />
+            <p class="color-text">Đổi trả, hoàn tiền trong 15 ngày nếu không ưng ý</p>
+          </div>
+          <div class="d-flex img-icon-custom">
+            <!--@*<a target="_blank" href="https://icons8.com/icon/TLnToXNqmdBC/award">Award</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>*@-->
+            <img class="img-custom img-cannot-download" src="../../assets/iconImg/worldImg.png" />
+            <p class="color-text">Giao hàng nhanh toàn cầu</p>
+          </div>
+          <div class="d-flex img-icon-custom">
+            <!--@*<a target="_blank" href="https://icons8.com/icon/TLnToXNqmdBC/award">Award</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>*@-->
+            <img class="img-custom img-cannot-download" src="../../assets/iconImg/handTrust.png" />
+            <p class="color-text">Bảo hành trọn đời</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <nav class="mt-2" *ngIf="product">
+    <div [@.disabled]="true">
+      <mat-tab-group animationDuration="0ms" (selectedTabChange)="cutText()">
+        <mat-tab label="{{ 'Product.Information' | translate}}">
+          <div [hidden]="!isReadMore" class="tab-pane show active pre-wrap large-box"  [ngClass]="isReadMore ? 'autoTextHeight' : 'limitTextHeight'">
+            <h2 [innerHTML]="product.Description"></h2>
+          </div>
+          <div [hidden]="isReadMore" class="tab-pane show active pre-wrap large-box small-text" [ngClass]="isReadMore ? 'autoTextHeight' : 'limitTextHeight'">
+            <h2 [innerHTML]="product.Description"></h2>
+          </div>
+        </mat-tab>
+        <mat-tab label="{{ 'Product.Detail' | translate}}">
+          <div [hidden]="!isReadMore" class="tab-pane pre-wrap large-box" [innerHTML]="product.FormattedInfomations" [ngClass]="isReadMore ? 'autoTextHeight' : 'limitTextHeight'"></div>
+          <div [hidden]="isReadMore" class="tab-pane pre-wrap large-box small-text" [innerHTML]="product.FormattedInfomations" [ngClass]="isReadMore ? 'autoTextHeight' : 'limitTextHeight'"></div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <button class="btn btn-sm lmb-btn title m-auto d-block mt-3" type="button" (click)="toggleShowText()">
+      <span class="btn-title" *ngIf="!isReadMore"> {{'Label.Show_More' | translate}}</span>
+      <span class="btn-title" *ngIf="isReadMore"> {{'Label.Show_Less' | translate}}</span>
+    </button>
+  </nav>
+
+  <div class="mt-2" *ngIf="product">
+    <suggestion-product [productId]="product.Id"></suggestion-product>
+  </div>
+</div>

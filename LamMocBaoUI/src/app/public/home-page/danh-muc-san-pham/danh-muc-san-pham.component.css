@@ -1,0 +1,31 @@
+.category-item img {
+  clip-path: circle();
+  height: 70px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.category-item a {
+  text-decoration: none
+}
+
+  .category-item a p {
+    text-align: center;
+    color: #ebb73a;
+    margin-top: 0.8rem;
+    font-size: 12px;
+  }
+
+.even-item {
+}
+
+.odd-item,
+.selected {
+  background-color: #ffffff1a;
+  border-radius: 5px;
+}
+
+.category {
+  background-color: #ffffff1a;
+  border-radius: 15px;
+}

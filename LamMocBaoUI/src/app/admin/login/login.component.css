@@ -1,0 +1,16 @@
+label {
+    color: white;
+}
+
+
+::ng-deep #admin-layout #main-content login {
+  height: auto !important;
+  display: block;
+}
+#btn-show-password {
+  position: relative;
+  right: 3px;
+  top: -35px;
+  float: right;
+  border: none;
+}
